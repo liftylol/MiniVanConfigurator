@@ -1,0 +1,121 @@
+ /* thats a shitty css if ive ever seen one!S */
+
+ 
+ 
+
+body	{
+	width: 800px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid black;
+	background: rgb(57, 58, 55);
+	text-align: center;
+	color: rgb(113, 247, 209);
+}
+
+
+html	{
+	background: rgb(35, 36, 38);
+}
+
+#manual {
+     width: 800px;
+     margin: 0 auto;
+	 text-align: left;
+}
+
+.key100u {
+	text-align: center;
+	color: rgb(113, 247, 209);
+    border: 1px outset black;
+    background-color: rgb(35, 36, 38);
+    height:50px;
+    width:50px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+}
+
+.key100u:hover {
+	background-color: rgb(57, 58, 55);
+}
+
+.key125u {
+	text-align: center;
+	color: rgb(113, 247, 209);
+    border: 1px outset black;
+    background-color: rgb(35, 36, 38);
+    height:50px;
+    width:62.5px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+}
+
+.key125u:hover {
+	background-color: rgb(57, 58, 55);
+}
+
+.key150u {
+	text-align: center;
+	color: rgb(113, 247, 209);
+    border: 1px outset black;
+    background-color: rgb(35, 36, 38);
+    height:50px;
+    width:75px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+}
+
+.key150u:hover {
+	background-color: rgb(57, 58, 55);
+}
+
+.key175u {
+	text-align: center;
+	color: rgb(113, 247, 209);
+    border: 1px outset black;
+    background-color: rgb(35, 36, 38);
+    height:50px;
+    width:87.5px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+}
+
+.key175u:hover {
+	background-color: rgb(57, 58, 55);
+}
+
+.key200u {
+	text-align: center;
+	color: rgb(113, 247, 209);
+    border: 1px outset black;
+    background-color: rgb(35, 36, 38);
+    height:50px;
+    width:100px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+}
+
+.key200u:hover {
+	background-color: rgb(57, 58, 55);
+}
+
+.key225u {
+	text-align: center;
+	color: rgb(113, 247, 209);
+    border: 1px outset black;
+    background-color: rgb(35, 36, 38);
+    height:50px;
+    width:112.5px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+}
+
+.key225u:hover {
+   background-color: rgb(57, 58, 55);
+}
