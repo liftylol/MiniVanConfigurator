@@ -31,16 +31,24 @@ html {
   content: '';
   position: absolute;
   display: block;
-  top: -15px;
-  right: 0;
+  top: 0;
+  right: -9px;
   z-index: 1;
 
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid red;
+  border-bottom: 15px solid black;
   transform: rotate(45deg)
+}
+
+.keyboard--key--container__toggle:after {
+  border-bottom-color: red;
+}
+
+.keyboard--key--container__momentary:after {
+  border-bottom-color: green;
 }
 
 .keyboard--key--container__100 {

@@ -1,27 +1,7 @@
-layouts = [
-  {
-    name: 'standard',
-    keys: [
-      [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 175],
-      [125, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 150],
-      [175, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-      [125, 150, 125, 225, 200, 125, 150, 175]
-    ]
-  },
-  {
-    name: 'arrow',
-    keys: [
-      [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 175],
-      [125, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 150],
-      [175, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-      [125, 150, 125, 225, 200, 150, 100, 100, 100]
-    ]
-  },
-];
-
 templates = [
   {
     name: 'standard',
+    layout: 'standard',
     keys: [
       [
         [
@@ -242,78 +222,3 @@ templates = [
     ]
   }
 ];
-
-cumulativeOffset = function(element) {
-  var top = element.offsetHeight,
-    left = 0;
-
-  do {
-    top += element.offsetTop  || 0;
-    left += element.offsetLeft || 0;
-    element = element.offsetParent;
-  } while(element);
-
-  return {
-    top: top,
-    left: left
-  };
-};
-
-addLayer = function(layout) {
-  var layers = [];
-
-  for (var i = 0; i < layout.length; i++) {
-    layers[i] = [];
-
-    for (var j = 0; j < layout[i].length; j++) {
-      layers[i][j] = {
-        value: 'TRNS',
-        type: null
-      };
-    };
-  };
-
-  return layers;
-};
-
-var v = new Vue({
-  el: '#keyboard-form',
-  data: {
-    layout: layouts[0]['keys'],
-    template: templates[0]['keys']
-  },
-  methods: {
-    showMenu: function(event) {
-      event.preventDefault();
-
-      var key = event.srcElement;
-      var position = cumulativeOffset(key);
-
-      document.getElementById('key-list').style.top = position.top + 'px';
-      document.getElementById('key-list').style.left = position.left + 'px';
-      document.getElementById('key-list').style.display = 'block';
-    },
-
-    hideMenu: function(event) {
-      document.getElementById('key-list').style.display = 'none';
-    },
-
-    addLayer: function(event) {
-      event.preventDefault();
-
-      // @TODO: Ensure user does not add more layers then they're allowed
-      this.template.push(addLayer(this.layout));
-    },
-
-    // @ TODO: Figure out how to search array by reference (layer), passing ID too is dumb
-    removeLayer: function (event, layer, id) {
-      event.preventDefault();
-
-      if (id > 0) {
-        delete this.template.$remove(layer);
-      } else {
-        alert('Cannot delete base layer');
-      }
-    }
-  }
-});
