@@ -1,315 +1,88 @@
-<title>MiniVan Keyboard Layout Configurator</title>
-<head>
-<link rel="stylesheet" type="text/css" href="https://www.mgauck.de/style.css">
-</head>
-<body>
-<!--Standard layer-->
-<form action="" method=post enctype=multipart/form-data>
-<b>Base layer:</b></br></br>
-<input class="key100u" type="text" value="TAB" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="Q" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="W" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="E" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="R" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="T" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="Y" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="U" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="I" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="O" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="P" name="L1" style="text-transform:uppercase">
-<input class="key175u" type="text" value="BSPACE" name="L1" style="text-transform:uppercase">
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>MiniVan Keyboard Layout Configurator</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-</br>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div id="container">
+      <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
+        <div v-for="(keyboardIndex, keyboard) in template" class="keyboards">
+          <div class="keyboard">
+            <div v-for="(rowIndex, row) in layout" class="row">
+              <div
+                v-for="(keyIndex, key) in row"
+                class="keyboard--key--container keyboard--key--container__{{ key }}"
+                v-bind:class="{ 'keyboard--key--container__toggle': keyboard[rowIndex][keyIndex].type == 'toggle', 'keyboard--key--container__momentary': keyboard[rowIndex][keyIndex].type == 'momentary'}"
+                v-on:contextmenu="showMenu"
+              >
+                <input
+                  class="keyboard--key"
+                  name="L3"
+                  type="text"
+                  v-model="keyboard[rowIndex][keyIndex].value"
+                  v-on:blur="hideMenu"
+                  v-on:keyup="hideMenu"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
 
-<input class="key125u" type="text" value="FN0" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="A" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="S" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="D" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="G" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="H" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="J" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="K" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="L" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value=";" name="L1" style="text-transform:uppercase">
-<input class="key150u" type="text" value="FN0" name="L1" style="text-transform:uppercase">
-
-</br>
-
-<input class="key175u" type="text" value="LSHIFT" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="Z" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="X" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="C" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="V" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="B" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="N" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="M" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="," name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="." name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="/" name="L1" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN1" name="L1" style="text-transform:uppercase">
-
-</br>
-
-<input class="key125u" type="text" value="LCTRL" name="L1" style="text-transform:uppercase">
-<input class="key150u" type="text" value="FN1" name="L1" style="text-transform:uppercase">
-<input class="key125u" type="text" value="LGUI" name="L1" style="text-transform:uppercase">
-<input class="key225u" type="text" value="ENTER" name="L1" style="text-transform:uppercase">
-<input class="key200u" type="text" value="SPACE" name="L1" style="text-transform:uppercase">
-<input class="key125u" type="text" value="RALT" name="L1" style="text-transform:uppercase">
-<input class="key150u" type="text" value="RSHIFT" name="L1" style="text-transform:uppercase">
-<input class="key175u" type="text" value="FN2" name="L1" style="text-transform:uppercase">
-
-</br>
-</br>
-</br>
-</br>
+    <div id="key-list">
+      Key list menu
+    </div>
 
 
-<!--Layer 0-->
-<b>Layer 0:</b></br></br>
-<input class="key100u" type="text" value="GRV" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN4" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN5" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN6" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN7" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN8" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN9" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN10" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN11" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN12" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN13" name="L2" style="text-transform:uppercase">
-<input class="key175u" type="text" value="DEL" name="L2" style="text-transform:uppercase">
 
-</br>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+    cumulativeOffset = function(element) {
+      var top = element.offsetHeight,
+        left = 0;
 
-<input class="key125u" type="text" value="FN0" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="\" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="'" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="-" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="=" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="{" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="}" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="DOWN" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="UP" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="LEFT" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="RIGHT" name="L2" style="text-transform:uppercase">
-<input class="key150u" type="text" value="FN0" name="L2" style="text-transform:uppercase">
+      do {
+        top += element.offsetTop  || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+      } while(element);
 
-</br>
+      return {
+        top: top,
+        left: left
+      };
+    };
 
-<input class="key175u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="ESC" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN20" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="PRINT" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="MSTP" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="MPLY" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="MPRV" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="MNXT" name="L2" style="text-transform:uppercase">
-<input class="key100u" type="text" value="RSHIFT" name="L2" style="text-transform:uppercase">
+    var v = new Vue({
+      el: '#keyboard-form',
+      data: {
+        layout: layouts[0]['keys'],
+        template: templates[0]['keys']
+      },
+      methods: {
+        showMenu: function(event) {
+          event.preventDefault();
 
-</br>
+          var key = event.srcElement;
+          var position = cumulativeOffset(key);
 
-<input class="key125u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key150u" type="text" value="LGUI" name="L2" style="text-transform:uppercase">
-<input class="key125u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key225u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key200u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key125u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key150u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-<input class="key175u" type="text" value="TRNS" name="L2" style="text-transform:uppercase">
-
-</br>
-</br></br>
-</br>
-
-<!--Layer 1-->
-<b>Layer 1:</b></br></br>
-<input class="key100u" type="text" value="FN3" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="7" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="8" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="9" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="0" name="L3" style="text-transform:uppercase">
-<input class="key175u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-
-</br>
-
-<input class="key125u" type="text" value="ESC" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN14" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN15" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN16" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN17" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN18" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN19" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="4" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="5" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="6" name="L3"" style="text-transform:uppercase">
-<input class="key100u" type="text" value="VOLU" name="L3" style="text-transform:uppercase">
-<input class="key150u" type="text" value="ENTER" name="L3" style="text-transform:uppercase">
-
-</br>
-
-<input class="key175u" type="text" value="FN1" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="0" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="1" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="2" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="3" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="VOLD" name="L3" style="text-transform:uppercase">
-<input class="key100u" type="text" value="FN1" name="L3" style="text-transform:uppercase">
-
-</br>
-
-<input class="key125u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key150u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key125u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key225u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key200u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key125u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key150u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-<input class="key175u" type="text" value="TRNS" name="L3" style="text-transform:uppercase">
-
-</br>
-</br></br>
-</br>
-
-
-<!--Layer 2-->
-<b>Layer 2:</b></br></br>
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F1" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F2" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F3" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F4" name="L4" style="text-transform:uppercase">
-<input class="key175u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-
-</br>
-
-<input class="key125u" type="text" value="ESC" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F5" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F6" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F7" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F8" name="L4" style="text-transform:uppercase">
-<input class="key150u" type="text" value="ENTER" name="L4" style="text-transform:uppercase">
-
-</br>
-
-<input class="key175u" type="text" value="LSHIFT" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="1" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="2" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="3" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="4" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="5" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="6" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F9" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F10" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F11" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="F12" name="L4" style="text-transform:uppercase">
-<input class="key100u" type="text" value="RSHIFT" name="L4" style="text-transform:uppercase">
-
-</br>
-
-<input class="key125u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key150u" type="text" value="LSHIFT" name="L4" style="text-transform:uppercase">
-<input class="key125u" type="text" value="B" name="L4" style="text-transform:uppercase">
-<input class="key225u" type="text" value="SPACE" name="L4" style="text-transform:uppercase">
-<input class="key200u" type="text" value="C" name="L4" style="text-transform:uppercase">
-<input class="key125u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key150u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-<input class="key175u" type="text" value="TRNS" name="L4" style="text-transform:uppercase">
-
-</br>
-</br>
-
-<input class="key225u" type=submit value="Make .hex!">
-</form>
-</br>
-</br>
-<div id="manual">
-If something is in brackets, you can either use the symbols itself or the name in the bracket!</br>
-</br>
-Accepted keys:</br>
-</br>
-A-Z, 0-9</br>
-ENTER</br>
-ESCAPE (ESC)</br>
-BSPACE</br>
-TAB</br>
-SPACE</br>
-- and _ (MINUS)</br>
-= and + (EQUAL</br>
-[ and { (LBRACKET)</br>
-] and } (RBRACKET)</br>
-\ and | (BSLASH)</br>
-Non-US # and ~ (NONUS_HASH)</br>
-; and : (SCOLON)</br>
-' and “ (QUOTE)</br>
-Grave Accent and Tilde (GRV)</br>
-, and < (COMMA)</br>
-. and > (DOT)</br>
-/ and ? (SLASH)</br>
-CAPS</br>
-F1-F24</br>
-PRINT</br>
-SCROLL</br>
-PAUSE</br>
-INSERT</br>
-HOME</br>
-PGUP</br>
-DELETE</br>
-END</br>
-PGDOWN</br>
-RIGHT</br>
-LEFT</br>
-UP</br>
-DOWN</br>
-NUMLOCK</br>
-KP_SLASH</br>
-KP_ASTERISK</br>
-KP_MINUS</br>
-KP_PLUS</br>
-KP_ENTER</br>
-KP_0-KP_9</br>
-KP_DOT</br>
-KP_EQUAL</br>
-</br>
-Mods:</br>
-LCTRL	RCTRL</br>
-LSHIFT	RSHIFT</br>
-LALT	RALT</br>
-LGUI	RGUIS</br>
-</br>
-Media Keys:</br>
-MSTP, MPLY, MPRV, MNXT, VOLU, VOLD</br>
-</br>
-FN:</br>
-FN0-31</br>
-TRNS to make key 'transparent'</br>
-</br>
-FN1 and FN2 are hold to use and FN3 is toggle, the others are used as macro keys (still default from evangs' software, option coming soon(tm))!
-</body>
+          document.getElementById('key-list').style.top = position.top + 'px';
+          document.getElementById('key-list').style.left = position.left + 'px';
+          document.getElementById('key-list').style.display = 'block';
+        },
+        hideMenu: function(event) {
+          document.getElementById('key-list').style.display = 'none';
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
