@@ -18,6 +18,7 @@ html {
 .keyboard {
   margin-bottom: 20px;
   text-align: center;
+  /*border: 1px solid red;*/
 }
 
 .keyboard--key--container {

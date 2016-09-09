@@ -14,6 +14,11 @@
       <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
         <div v-for="(keyboardIndex, keyboard) in template" class="keyboards">
           <div class="keyboard">
+            <h2 v-if="keyboardIndex == 0">Base Layer</h2>
+            <h2 v-else>Layer {{ keyboardIndex - 1 }}</h2>
+
+            <p><a v-on:click="removeLayer($event, keyboard)">Remove layer</a></p>
+
             <div v-for="(rowIndex, row) in layout" class="row">
               <div
                 v-for="(keyIndex, key) in row"
@@ -33,6 +38,8 @@
             </div>
           </div>
         </div>
+
+        <p><a v-on:click="addLayer">Add layer</a></p>
       </form>
     </div>
 
@@ -44,45 +51,5 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
     <script src="main.js"></script>
-    <script>
-    cumulativeOffset = function(element) {
-      var top = element.offsetHeight,
-        left = 0;
-
-      do {
-        top += element.offsetTop  || 0;
-        left += element.offsetLeft || 0;
-        element = element.offsetParent;
-      } while(element);
-
-      return {
-        top: top,
-        left: left
-      };
-    };
-
-    var v = new Vue({
-      el: '#keyboard-form',
-      data: {
-        layout: layouts[0]['keys'],
-        template: templates[0]['keys']
-      },
-      methods: {
-        showMenu: function(event) {
-          event.preventDefault();
-
-          var key = event.srcElement;
-          var position = cumulativeOffset(key);
-
-          document.getElementById('key-list').style.top = position.top + 'px';
-          document.getElementById('key-list').style.left = position.left + 'px';
-          document.getElementById('key-list').style.display = 'block';
-        },
-        hideMenu: function(event) {
-          document.getElementById('key-list').style.display = 'none';
-        }
-      }
-    });
-    </script>
   </body>
 </html>

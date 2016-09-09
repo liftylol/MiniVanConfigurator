@@ -64,7 +64,7 @@ templates = [
           { value: ',', type: null },
           { value: '.', type: null },
           { value: '/', type: null },
-          // { value: 'FN1', type: 'momentary' }
+          { value: 'FN1', type: 'momentary' }
         ],
         [
           { value: 'LCTRL', type: null },
@@ -243,115 +243,73 @@ templates = [
   }
 ];
 
+cumulativeOffset = function(element) {
+  var top = element.offsetHeight,
+    left = 0;
 
-var Keyboard = (function () {
-  function Keyboard(layout, template) {
-    this.layout = layout;
-    this.template = template;
+  do {
+    top += element.offsetTop  || 0;
+    left += element.offsetLeft || 0;
+    element = element.offsetParent;
+  } while(element);
 
-    this.defaultKey = 'TRNS';
-  }
+  return {
+    top: top,
+    left: left
+  };
+};
 
-  Keyboard.prototype.cumulativeOffset = function(element) {
-    var top = element.offsetHeight,
-      left = 0;
+addLayer = function(layout) {
+  var layers = [];
 
-    do {
-      top += element.offsetTop  || 0;
-      left += element.offsetLeft || 0;
-      element = element.offsetParent;
-    } while(element);
+  for (var i = 0; i < layout.length; i++) {
+    layers[i] = [];
 
-    return {
-      top: top,
-      left: left
+    for (var j = 0; j < layout[i].length; j++) {
+      layers[i][j] = {
+        value: 'TRNS',
+        type: null
+      };
     };
   };
 
-  Keyboard.prototype.createLayer = function(layout, layerTemplate) {
-    var keyboard = document.createElement('div');
-    keyboard.classList.add('keyboard');
+  return layers;
+};
 
-    for (var i = 0; i < layout.length; i++) {
-      var rowTemplate = null;
-      if (typeof layerTemplate[i] !== 'undefined') {
-        rowTemplate = layerTemplate[i];
-      }
+var v = new Vue({
+  el: '#keyboard-form',
+  data: {
+    layout: layouts[0]['keys'],
+    template: templates[0]['keys']
+  },
+  methods: {
+    showMenu: function(event) {
+      event.preventDefault();
 
-      var row = this.createRow(layout[i], rowTemplate);
-
-      keyboard.appendChild(row);
-    }
-
-    return keyboard;
-  }
-
-  Keyboard.prototype.createRow = function(rowLayout, rowTemplate) {
-    var row = document.createElement('div');
-    row.classList.add('keyboard--row');
-
-    for (var i = 0; i < rowLayout.length; i++) {
-      var keyTemplate = null;
-      if (typeof rowTemplate[i] !== 'undefined') {
-        keyTemplate = rowTemplate[i];
-      }
-
-      var key = this.createKey(rowLayout[i], keyTemplate);
-
-      row.appendChild(key);
-    }
-
-    return row;
-  }
-
-  Keyboard.prototype.createKey = function (keyLayout, keyTemplate) {
-    var key = document.createElement('input');
-    key.classList.add('keyboard--key', 'keyboard--key__' + keyLayout);
-
-    if (keyTemplate !== null) {
-      key.value = keyTemplate.value;
-    } else {
-      key.value = this.defaultKey;
-    }
-
-    key.name = 'L3';
-    key.type = 'text';
-
-    var that = this;
-
-    key.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-
-      var key = e.srcElement;
-      var position = that.cumulativeOffset(key);
+      var key = event.srcElement;
+      var position = cumulativeOffset(key);
 
       document.getElementById('key-list').style.top = position.top + 'px';
       document.getElementById('key-list').style.left = position.left + 'px';
       document.getElementById('key-list').style.display = 'block';
-    }, false);
+    },
 
-    key.addEventListener('blur', function (e) {
+    hideMenu: function(event) {
       document.getElementById('key-list').style.display = 'none';
-    }, false);
+    },
 
-    return key;
-  }
+    addLayer: function(event) {
+      event.preventDefault();
 
-  Keyboard.prototype.renderLayout = function() {
-    var container = document.createElement('div');
-    container.classList.add('keyboards');
+      // @TODO: Ensure user does not add more layers then they're allowed
+      this.template.push(addLayer(this.layout));
+    },
 
-    for (var i = 0; i < this.template.length; i++) {
-      var keyboard = this.createLayer(this.layout, this.template[i]);
+    removeLayer: function (event, layer) {
+      event.preventDefault();
 
-      container.appendChild(keyboard);
+      // @TODO: Prevent deleting base layer
+      delete this.template.$remove(layer);
     }
-
-    return container;
-  };
-
-  return Keyboard;
-}());
-
-// var layout = new Keyboard(layouts[0]['keys'], templates[0]['keys']).renderLayout();
-// document.getElementById('keyboard-form').appendChild(layout);
+  }
+});
