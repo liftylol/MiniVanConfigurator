@@ -305,11 +305,15 @@ var v = new Vue({
       this.template.push(addLayer(this.layout));
     },
 
-    removeLayer: function (event, layer) {
+    // @ TODO: Figure out how to search array by reference (layer), passing ID too is dumb
+    removeLayer: function (event, layer, id) {
       event.preventDefault();
 
-      // @TODO: Prevent deleting base layer
-      delete this.template.$remove(layer);
+      if (id > 0) {
+        delete this.template.$remove(layer);
+      } else {
+        alert('Cannot delete base layer');
+      }
     }
   }
 });

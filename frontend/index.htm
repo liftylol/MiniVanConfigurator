@@ -17,7 +17,7 @@
             <h2 v-if="keyboardIndex == 0">Base Layer</h2>
             <h2 v-else>Layer {{ keyboardIndex - 1 }}</h2>
 
-            <p><a v-on:click="removeLayer($event, keyboard)">Remove layer</a></p>
+            <p><a v-on:click="removeLayer($event, keyboard, keyboardIndex)">Remove layer</a></p>
 
             <div v-for="(rowIndex, row) in layout" class="row">
               <div
