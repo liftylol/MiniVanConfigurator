@@ -22,8 +22,7 @@
             <div v-for="(rowIndex, row) in layout" class="row">
               <div
                 v-for="(keyIndex, key) in row"
-                class="keyboard--key--container keyboard--key--container__{{ key }}"
-                v-bind:class="{ 'keyboard--key--container__toggle': keyboard[rowIndex][keyIndex].type == 'toggle', 'keyboard--key--container__momentary': keyboard[rowIndex][keyIndex].type == 'momentary'}"
+                v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex].type)"
                 v-on:contextmenu="showMenu"
               >
                 <input

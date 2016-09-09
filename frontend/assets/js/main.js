@@ -46,6 +46,21 @@ var v = new Vue({
   },
   methods: {
     /**
+     * Build the classes required for the keyboard key container
+     */
+    keyContainerClasses(key, type) {
+      var classes = ['keyboard--key--container', 'keyboard--key--container__' + key];
+
+      if (type == 'toggle') {
+        classes.push('keyboard--key--container__toggle');
+      } else if (type == 'momentary') {
+        classes.push('keyboard--key--container__momentary');
+      }
+
+      return classes;
+    },
+
+    /**
      * Show right click menu
      */
     showMenu: function(event) {
