@@ -7,32 +7,36 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   </head>
   <body>
     <div id="container">
       <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
         <div v-for="(keyboardIndex, keyboard) in template" class="keyboards">
-          <div class="keyboard">
+          <div class="keyboard-container">
             <h2 v-if="keyboardIndex == 0">Base Layer</h2>
             <h2 v-else>Layer {{ keyboardIndex - 1 }}</h2>
 
             <p><a v-on:click="removeLayer($event, keyboard, keyboardIndex)">Remove layer</a></p>
 
-            <div v-for="(rowIndex, row) in layout" class="row">
-              <div
-                v-for="(keyIndex, key) in row"
-                v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex].type)"
-                v-on:contextmenu="showMenu"
-              >
-                <input
-                  class="keyboard--key"
-                  name="L3"
-                  type="text"
-                  v-model="keyboard[rowIndex][keyIndex].value"
-                  v-on:blur="hideMenu"
-                  v-on:keyup="hideMenu"
+            <div class="keyboard">
+              <div v-for="(rowIndex, row) in layout" class="row">
+                <div
+                  v-for="(keyIndex, key) in row"
+                  v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex].type)"
+                  v-on:contextmenu="showMenu"
                 >
+                  <input
+                    class="keyboard--key keyboard--key__{{ key.type }}"
+                    name="L3"
+                    type="text"
+                    v-model="keyboard[rowIndex][keyIndex].value"
+                    v-on:blur="hideMenu"
+                    v-on:keyup="hideMenu"
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -43,7 +47,6 @@
     </div>
 
     <div id="key-list">
-      Key list menu
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>

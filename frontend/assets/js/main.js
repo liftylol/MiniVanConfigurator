@@ -49,7 +49,7 @@ var v = new Vue({
      * Build the classes required for the keyboard key container
      */
     keyContainerClasses(key, type) {
-      var classes = ['keyboard--key--container', 'keyboard--key--container__' + key];
+      var classes = ['keyboard--key--container', 'keyboard--key--container__' + key.size];
 
       if (type == 'toggle') {
         classes.push('keyboard--key--container__toggle');

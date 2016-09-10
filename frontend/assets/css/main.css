@@ -3,22 +3,27 @@
 }
 
 html {
-  background: rgb(35, 36, 38);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
 }
 
 #container {
   width: 800px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid black;
-  background: rgb(57, 58, 55);
-  color: rgb(113, 247, 209);
+}
+
+.keyboard-container {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .keyboard {
-  margin-bottom: 20px;
   text-align: center;
-  /*border: 1px solid red;*/
+  margin-bottom: 20px;
+  border: 10px solid #90fef9;
+  background-color: #90fef9;
+  border-radius: 5px;
 }
 
 .keyboard--key--container {
@@ -31,24 +36,24 @@ html {
   content: '';
   position: absolute;
   display: block;
-  top: 0;
+  top: -1px;
   right: -9px;
   z-index: 1;
-
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 15px solid black;
-  transform: rotate(45deg)
+  transform: rotate(45deg);
+  opacity: 0.6;
 }
 
 .keyboard--key--container__toggle:after {
-  border-bottom-color: red;
+  border-bottom-color: #e3d59c;
 }
 
 .keyboard--key--container__momentary:after {
-  border-bottom-color: green;
+  border-bottom-color: #e79797;
 }
 
 .keyboard--key--container__100 {
@@ -78,31 +83,43 @@ html {
 .keyboard--key {
   text-transform: uppercase;
   text-align: center;
+  margin: 0;
   padding: 0 5px;
-  color: rgb(113, 247, 209);
-  border: 1px outset black;
-  background-color: rgb(35, 36, 38);
+  color: #90fef9;
+  border: 1px solid #000;
+  background-color: #83817f;
   width: 100%;
   height: 50px;
+  font-size: 12px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
 }
 
 .keyboard--key:hover,
 .keyboard--key:focus {
-  background-color: rgb(57, 58, 55);
+  background-color: #90fef9;
+  color: #3d3d39;
 }
 
 .keyboard--key:focus {
   outline: none;
-  box-shadow: 0 0 5px 2px black;
+  box-shadow: inset 0 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 5px 2px #90fef9;
   z-index: 5;
   position: relative;
+}
+
+.keyboard--key__secondary {
+  background-color: #3d3d39;
 }
 
 #key-list {
   position: absolute;
   border: 1px solid black;
   background-color: #fff;
-  width: 100px;
+  width: 200px;
   height: 100px;
   display: none;
+  z-index: 1000;
 }
