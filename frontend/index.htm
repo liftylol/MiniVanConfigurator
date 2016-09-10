@@ -30,7 +30,7 @@
               <div v-for="(rowIndex, row) in layout" class="row">
                 <div
                   v-for="(keyIndex, key) in row"
-                  v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex].type)"
+                  v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex])"
                   v-on:contextmenu="showMenu"
                 >
                   <input

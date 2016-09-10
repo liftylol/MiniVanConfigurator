@@ -68,13 +68,15 @@ var v = new Vue({
     /**
      * Build the classes required for the keyboard key container
      */
-    keyContainerClasses(key, type) {
+    keyContainerClasses(key, keyboard) {
       var classes = ['keyboard--key--container', 'keyboard--key--container__' + key.size];
 
-      if (type == 'toggle') {
-        classes.push('keyboard--key--container__toggle');
-      } else if (type == 'momentary') {
-        classes.push('keyboard--key--container__momentary');
+      if (typeof keyboard !== 'undefined') {
+        if (keyboard.type == 'toggle') {
+          classes.push('keyboard--key--container__toggle');
+        } else if (keyboard.type == 'momentary') {
+          classes.push('keyboard--key--container__momentary');
+        }
       }
 
       return classes;
