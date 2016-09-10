@@ -13,9 +13,21 @@ html {
   padding: 20px;
 }
 
-.keyboard-container {
+.keyboard--layer {
   text-align: center;
   margin-bottom: 30px;
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.keyboard--layer--remove {
+  font-size: 16px;
+  padding: 5px 8px !important;
+  position: absolute;
+  top: 17px;
+  right: 20px;
 }
 
 .keyboard {
@@ -38,14 +50,13 @@ html {
   display: block;
   top: -1px;
   right: -9px;
-  z-index: 1;
+  z-index: 6;
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 15px solid black;
   transform: rotate(45deg);
-  opacity: 0.6;
 }
 
 .keyboard--key--container__toggle:after {
@@ -92,7 +103,7 @@ html {
   height: 50px;
   font-size: 12px;
   border-radius: 3px;
-  box-shadow: inset 0 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 1px 6px rgba(0, 0, 0, 0.2);
   transition: all 200ms ease-in-out;
   cursor: pointer;
 }
@@ -116,10 +127,55 @@ html {
 
 #key-list {
   position: absolute;
-  border: 1px solid black;
+  border: 1px solid #83817f;
   background-color: #fff;
-  width: 200px;
-  height: 100px;
   display: none;
+  width: 200px;
   z-index: 1000;
+  border-radius: 5px;
+  box-shadow: 3px 3px 0 #83817f;
+}
+
+.key-list--select {
+  padding: 10px;
+  border-bottom: 1px solid #83817f;
+}
+
+.key-list--select--label {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.key-list--select--select {
+  display: block;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid #83817f;
+  font-size: 14px;
+  line-height: 30px;
+  height: 30px;
+}
+
+.center {
+  text-align: center;
+}
+
+.button {
+  background-color: #90fef9;
+  color: #3d3d39;
+  padding: 10px 20px;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button__secondary {
+  background-color: #3d3d39;
+  color: #90fef9;
+}
+
+.button__error {
+  background-color: #e79797;
+  color: #3d3d39;
 }
