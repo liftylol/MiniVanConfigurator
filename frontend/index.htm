@@ -14,43 +14,110 @@
     <script src="https://use.fontawesome.com/8d7e1df088.js"></script>
   </head>
   <body v-on:click="hideContextMenu">
-    <div id="container">
-      <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
-        <div v-for="(keyboardIndex, keyboard) in template" class="keyboards">
-          <div class="keyboard--layer">
-            <h2 v-if="keyboardIndex == 0">Base Layer</h2>
-            <h2 v-else>
-              Layer {{ keyboardIndex - 1 }}
-              <a v-on:click="removeLayer($event, keyboard, keyboardIndex)" class="keyboard--layer--remove button button__error"><i class="fa fa-trash" aria-hidden="true"></i></a>
-            </h2>
+    <div class="site-container">
+      <div class="site-container--left">
+        <div class="keyboard-container">
+          <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
+            <div v-for="(keyboardIndex, keyboard) in template" class="keyboard-container">
+              <div class="keyboard--layer">
+                <h2 v-if="keyboardIndex == 0">Base Layer</h2>
+                <h2 v-else>
+                  Layer {{ keyboardIndex - 1 }}
+                  <a v-on:click="removeLayer($event, keyboard, keyboardIndex)" class="keyboard--layer--remove button button__error"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </h2>
 
-            <p></p>
-
-            <div class="keyboard">
-              <div v-for="(rowIndex, row) in layout" class="row">
-                <div
-                  v-for="(keyIndex, key) in row"
-                  v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex])"
-                  v-on:contextmenu="showContextMenu"
-                >
-                  <input
-                    class="keyboard--key keyboard--key__{{ key.type }}"
-                    name="L3"
-                    type="text"
-                    v-model="keyboard[rowIndex][keyIndex].value"
-                    v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
-                  >
+                <div class="keyboard">
+                  <div v-for="(rowIndex, row) in layout" class="row">
+                    <div
+                      v-for="(keyIndex, key) in row"
+                      v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex])"
+                      v-on:contextmenu="showContextMenu"
+                    >
+                      <input
+                        class="keyboard--key keyboard--key__{{ key.type }}"
+                        name="L3"
+                        type="text"
+                        v-model="keyboard[rowIndex][keyIndex].value"
+                        v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
 
-        <p class="center">
+        <div class="actions">
           <a v-on:click="addLayer" class="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add layer</a>
           <a v-on:click="addLayer" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
-        </p>
-      </form>
+        </div>
+      </div>
+
+      <div class="site-container--right">
+        <div class="information">
+          <h1>Minivan Configurator</h1>
+          <p>If something is in brackets, you can either use the symbols itself or the name in the bracket.</br></p>
+
+          <h2>Accepted keys:</h2>
+
+          <p>A-Z, 0-9</br>
+          ENTER</br>
+          ESCAPE (ESC)</br>
+          BSPACE</br>
+          TAB</br>
+          SPACE</br>
+          - and _ (MINUS)</br>
+          = and + (EQUAL</br>
+          [ and { (LBRACKET)</br>
+          ] and } (RBRACKET)</br>
+          \ and | (BSLASH)</br>
+          Non-US # and ~ (NONUS_HASH)</br>
+          ; and : (SCOLON)</br>
+          ' and “ (QUOTE)</br>
+          Grave Accent and Tilde (GRV)</br>
+          , and < (COMMA)</br>
+          . and > (DOT)</br>
+          / and ? (SLASH)</br>
+          CAPS</br>
+          F1-F24</br>
+          PRINT</br>
+          SCROLL</br>
+          PAUSE</br>
+          INSERT</br>
+          HOME</br>
+          PGUP</br>
+          DELETE</br>
+          END</br>
+          PGDOWN</br>
+          RIGHT</br>
+          LEFT</br>
+          UP</br>
+          DOWN</br>
+          NUMLOCK</br>
+          KP_SLASH</br>
+          KP_ASTERISK</br>
+          KP_MINUS</br>
+          KP_PLUS</br>
+          KP_ENTER</br>
+          KP_0-KP_9</br>
+          KP_DOT</br>
+          KP_EQUAL</p>
+
+          <p><strong>Mods:</strong></br>
+          LCTRL	RCTRL</br>
+          LSHIFT	RSHIFT</br>
+          LALT	RALT</br>
+          LGUI	RGUIS</br></p>
+
+          <p><strong>Media Keys:</strong></br>
+          MSTP, MPLY, MPRV, MNXT, VOLU, VOLD</br></p>
+
+          <p><strong>FN:</strong></br>
+          FN0-31</br>
+          TRNS to make key 'transparent'</p>
+        </div>
+      </div>
     </div>
 
     <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">

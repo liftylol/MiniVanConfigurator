@@ -24,3 +24,5 @@ Frontend:
 - Add better way to select a key... current method is a bit messy
 - Add better controls to set momentary/toggle option on function keys
 - Add space for instructions
+- Add confirmation to delete layer button
+- Give instruction panel some more love
