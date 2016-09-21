@@ -125,29 +125,28 @@ html {
   background-color: #3d3d39;
 }
 
-#key-list {
+.context-menu {
   position: absolute;
   border: 1px solid #83817f;
   background-color: #fff;
-  display: none;
   width: 200px;
   z-index: 1000;
   border-radius: 5px;
   box-shadow: 3px 3px 0 #83817f;
 }
 
-.key-list--select {
+.context-menu--select {
   padding: 10px;
   border-bottom: 1px solid #83817f;
 }
 
-.key-list--select--label {
+.context-menu--select--label {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 11px;
 }
 
-.key-list--select--select {
+.context-menu--select--select {
   display: block;
   margin-top: 5px;
   width: 100%;

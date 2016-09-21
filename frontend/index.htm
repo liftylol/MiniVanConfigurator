@@ -13,7 +13,7 @@
 
     <script src="https://use.fontawesome.com/8d7e1df088.js"></script>
   </head>
-  <body>
+  <body v-on:click="hideContextMenu">
     <div id="container">
       <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
         <div v-for="(keyboardIndex, keyboard) in template" class="keyboards">
@@ -31,15 +31,14 @@
                 <div
                   v-for="(keyIndex, key) in row"
                   v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex])"
-                  v-on:contextmenu="showMenu"
+                  v-on:contextmenu="showContextMenu"
                 >
                   <input
                     class="keyboard--key keyboard--key__{{ key.type }}"
                     name="L3"
                     type="text"
                     v-model="keyboard[rowIndex][keyIndex].value"
-                    v-on:keyup="hideMenu"
-                    v-on:focus="focusKey(keyboard[rowIndex][keyIndex])"
+                    v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
                   >
                 </div>
               </div>
@@ -54,21 +53,21 @@
       </form>
     </div>
 
-    <div id="key-list">
-      <div class="key-list--select">
-        <label class="key-list--select--label">
-          Type:
-          <select class="key-list--select--select" v-model="activeKey.type">
-            <option v-for="buttonType in buttonTypes" v-bind:value="buttonType.id">{{ buttonType.name }}</option>
+    <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
+      <div class="context-menu--select">
+        <label class="context-menu--select--label">
+          Character:
+          <select class="context-menu--select--select" v-model="activeKey.value">
+            <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
           </select>
         </label>
       </div>
 
-      <div class="key-list--select">
-        <label class="key-list--select--label">
-          Character:
-          <select class="key-list--select--select" v-model="activeKey.value">
-            <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
+      <div class="context-menu--select">
+        <label class="context-menu--select--label">
+          Type:
+          <select class="context-menu--select--select" v-model="activeKey.type">
+            <option v-for="buttonType in buttonTypes" v-bind:value="buttonType.id">{{ buttonType.name }}</option>
           </select>
         </label>
       </div>
