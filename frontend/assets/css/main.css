@@ -8,7 +8,6 @@ html, body {
 
 html {
   font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
 }
 
 .site-container {
@@ -25,11 +24,11 @@ html {
 }
 
 .site-container--left {
-  width: 60%;
+  width: 70%;
 }
 
 .site-container--right {
-  width: 40%;
+  width: 30%;
   background-color: #3d3d39;
   padding: 0 20px;
 }
@@ -49,11 +48,10 @@ html {
 
 .keyboard--layer {
   text-align: center;
-  margin-bottom: 10px;
+  margin: 0 auto;
   padding: 10px 20px;
   position: relative;
   width: 800px;
-  float: right;
 }
 
 .keyboard--layer--remove {
@@ -159,13 +157,6 @@ html {
   background-color: #3d3d39;
 }
 
-.actions {
-  width: 800px;
-  float: right;
-  text-align: center;
-  margin: 50px 0;
-}
-
 .context-menu {
   position: absolute;
   border: 1px solid #83817f;
@@ -197,10 +188,6 @@ html {
   height: 30px;
 }
 
-.center {
-  text-align: center;
-}
-
 .button {
   background-color: #90fef9;
   color: #3d3d39;
@@ -213,36 +200,4 @@ html {
 .button__secondary {
   background-color: #3d3d39;
   color: #90fef9;
-}
-
-.button__error {
-  background-color: #e79797;
-  color: #3d3d39;
-}
-
-.information {
-  width: 400px;
-  padding-left: 20px;
-  padding-top: 10px;
-}
-
-.information,
-.information h1,
-.information h2,
-.information h3,
-.information p,
-.information li {
-  color: #fff;
-}
-
-.information h1 {
-  font-size: 32px;
-}
-
-.information h2 {
-  margin-top: 30px;
-}
-
-p {
-  font-size: 16px;
 }
