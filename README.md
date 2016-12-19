@@ -10,6 +10,13 @@ Basically everything interesting is inside van.py. It's a script that is written
 
 I'll list everything below that i want to change/add later on so if anyone is really interested - please go ahead and contact me.
 
+## Running the Application
+- Install Docker https://www.docker.com/products/overview
+- In the root directory run
+    docker build -t miniconfig .
+    docker run -it --rm -p 8000:80 --name my-running-app miniconfig
+- Navigate to http://localhost:8000 in your web browser
+
 ## Todo:
 
 Backend:
