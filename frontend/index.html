@@ -42,7 +42,7 @@
                     >
                       <input
                         class="keyboard--key keyboard--key__{{ key.type }}"
-                        name="L3"
+                        name="L{{ keyboardIndex + 1 }}"
                         type="text"
                         v-model="keyboard[rowIndex][keyIndex].value"
                         v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
@@ -52,12 +52,13 @@
                 </div>
               </div>
             </div>
+            <input type="submit" value="Submit">
           </form>
         </div>
 
         <div class="actions mw6 tc center mv4">
           <a v-on:click="addLayer" class="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add layer</a>
-          <a v-on:click="addLayer" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
+          <a v-on:click="makeHex" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
         </div>
       </div>
 

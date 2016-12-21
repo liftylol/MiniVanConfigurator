@@ -106,6 +106,15 @@ var v = new Vue({
     },
 
     /**
+     * builds the hex file and returns it as a download
+     */
+    makeHex: function(event) {
+        event.preventDefault();
+
+        document.forms["keyboard-form"].submit();
+    },
+
+    /**
      * Adds a new layer to the keyboard configuration
      */
     addLayer: function(event) {

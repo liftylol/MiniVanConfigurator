@@ -24,7 +24,7 @@ app = Flask(__name__)
 #Returns the file to download at the very end
 @app.route('/downloads/<filename>')
 def download_file(filename):
-    return send_from_directory("/app",
+    return send_from_directory("/app/tmk_keyboard/keyboard/tv44",
                                filename)
 
 #Checks if a key is allowed (defined above)
@@ -95,7 +95,7 @@ def main():
 		#Each layer has to be exactly 44 entries long, check that first. If you leave a input box empty, the browser won't send the empty value at all. Plus if someone decided to use
 		#this as an API we check if he sends the correct amount at of parameters first. If not, return an error.
 		if (len(layer1) != 44) or (len(layer2) != 44) or (len(layer3) != 44) or (len(layer4) != 44):
-			return('error: some values are missing! please enter all information!')
+			return('error: some values are missing! please enter all information!\nlayer 1: {0}\nlayer2: {1}\nlayer3: {2}\nlayer4: {3}'.format(len(layer1), len(layer2), len(layer3), len(layer4)))
 
 		#At this point, we have all our intended keys stored. Next we have to convert them to uppercase to have everything uniformly.
 		layer1 = makeUpper(layer1)
@@ -120,13 +120,13 @@ def main():
 		#As soon as we have the entire content of our config, we can write it into a file (with the timestamp we made right at the start!)
 		filename = "keymap_tv44_"+now+".c"
 		callname = "tv44_"+now
-		with open("/app/"+filename, "w+") as templatefile:
-			templatefile.write(configile)
+		with open("/app/tmk_keyboard/keyboard/tv44/"+filename, "w+") as templatefile:
+			templatefile.write(configfile)
 			templatefile.close()
 
 		#everything is set up, now we just have to make our hex file with a system call
 		callstring = "make KEYMAP="+callname+" TARGETFILE="+callname+" > /dev/null"
-		subprocess.call(callstring, shell=True, cwd="/_cut_/")
+		subprocess.call(callstring, shell=True, cwd="/app/tmk_keyboard/keyboard/tv44/")
 
 		#everything is done, we have to return the hex file! :)
 		return redirect(url_for('download_file', filename=callname+'.hex'))
