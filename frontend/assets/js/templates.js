@@ -73,7 +73,7 @@ templates = [
           { value: 'DEL', type: null }
         ],
         [
-          { value: 'FN0', type: null },
+          { value: 'TRNS', type: null },
           { value: '\\', type: null },
           { value: '\'', type: null },
           { value: '-', type: null },
@@ -84,7 +84,7 @@ templates = [
           { value: 'UP', type: null },
           { value: 'LEFT', type: null },
           { value: 'RIGHT', type: null },
-          { value: 'FN0', type: null }
+          { value: 'TRNS', type: null }
         ],
         [
           { value: 'TRNS', type: null },
@@ -114,12 +114,12 @@ templates = [
       [
         [
           { value: 'FN3', type: null },
-          { value: 'TRNS', type: null },
-          { value: 'TRNS', type: null },
-          { value: 'TRNS', type: null },
-          { value: 'TRNS', type: null },
-          { value: 'TRNS', type: null },
-          { value: 'TRNS', type: null },
+          { value: '1', type: null },
+          { value: '2', type: null },
+          { value: '3', type: null },
+          { value: '4', type: null },
+          { value: '5', type: null },
+          { value: '6', type: null },
           { value: '7', type: null },
           { value: '8', type: null },
           { value: '9', type: null },
@@ -141,7 +141,7 @@ templates = [
           { value: 'ENTER', type: null }
         ],
         [
-          { value: 'FN1', type: null },
+          { value: 'TRNS', type: null },
           { value: 'TRNS', type: null },
           { value: 'TRNS', type: null },
           { value: 'TRNS', type: null },
@@ -152,7 +152,7 @@ templates = [
           { value: '2', type: null },
           { value: '3', type: null },
           { value: 'VOLD', type: null },
-          { value: 'FN1', type: null }
+          { value: 'TRNS', type: null }
         ],
         [
           { value: 'TRNS', type: null },

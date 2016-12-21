@@ -5,31 +5,31 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
            replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
            replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
-           replace,  replace,   replace,   replace,   replace,   replace,   replace,   ESC,   replace),
+           replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),
 
     /* 1: FN 1 */
      KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
 			replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
 			replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
-			replace,  replace,   replace,   replace,   replace,   replace,   replace,   ESC,   replace),
-		   
+			replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),
+
     /* 2: FN 2 */
     KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
            replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
            replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
-           replace,  replace,   replace,   replace,   replace,   replace,   replace,   ESC,   replace),
+           replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),
 
     /* 3:  Game Mode */
     KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
            replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
            replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace, \
-           replace,  replace,   replace,   replace,   replace,   replace,   replace,   ESC,   replace),
+           replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),
 
    /* 4:  LED Mode */
    KEYMAP(TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, TRNS, \
           TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,  TRNS,  TRNS,  TRNS,  TRNS,  TRNS, \
           TRNS,    TRNS,   TRNS,   TRNS,   TRNS,   TRNS,   TRNS,  TRNS, TRNS, TRNS, TRNS,TRNS, \
-          TRNS, TRNS,     TRNS,  TRNS,       TRNS,      TRNS, TRNS, TRNS, TRNS),
+          TRNS, TRNS,     TRNS,  TRNS,       TRNS,      TRNS, TRNS, TRNS),
 };
 
 const uint16_t PROGMEM fn_actions[] = {
@@ -54,4 +54,6 @@ const uint16_t PROGMEM fn_actions[] = {
     [18] = ACTION_MODS_KEY(MOD_LSFT, KC_LBRC),
     [19] = ACTION_MODS_KEY(MOD_LSFT, KC_RBRC),
     [20] = ACTION_LAYER_TOGGLE(4),
+    [21] = ACTION_LAYER_TAP_KEY(1, KC_QUOT),
+    [22] = ACTION_MODS_TAP_KEY(MOD_LSFT, KC_ESC)
 };

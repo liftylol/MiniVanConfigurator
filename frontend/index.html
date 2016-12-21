@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>The Van Configurator</title>
+    <title>MiniVan Configurator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
@@ -18,7 +18,7 @@
   <body class="" v-on:click="hideContextMenu">
     <div class="bg-dark-gray white pv2 tc f3">
       <h1>
-        The Van Configurator
+        MiniVan Configurator
       </h1>
     </div>
     <div class="site-container">
@@ -137,6 +137,15 @@
           Character:
           <select class="context-menu--select--select" v-model="activeKey.value">
             <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="tapKeyVisible">
+        <label class="context-menu--select--label">
+          Mod/Layer:
+          <select class="context-menu--select--select" v-model="activeKey.mod">
+            <option v-for="ml in modsAndLayers" v-bind:value="ml">{{ ml }}</option>
           </select>
         </label>
       </div>
