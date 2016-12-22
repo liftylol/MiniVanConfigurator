@@ -47,6 +47,16 @@
                         v-model="keyboard[rowIndex][keyIndex].value"
                         v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
                       >
+                      <input
+                        name="LM{{ keyboardIndex + 1 }}"
+                        type="hidden"
+                        v-model="keyboard[rowIndex][keyIndex].mod"
+                      >
+                      <input
+                        name="LT{{ keyboardIndex + 1 }}"
+                        type="hidden"
+                        v-model="keyboard[rowIndex][keyIndex].type"
+                      >
                     </div>
                   </div>
                 </div>

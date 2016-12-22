@@ -48,11 +48,9 @@ var v = new Vue({
         if (keyboard.type == 'toggle') {
           classes.push('keyboard--key--container__toggle');
           this.tapKeyVisible = false;
-          key.mod = '';
         } else if (keyboard.type == 'momentary') {
           classes.push('keyboard--key--container__momentary');
           this.tapKeyVisible = false;
-          key.mod = '';
         } else if (keyboard.type == 'tapkey') {
           classes.push('keyboard--key--container__tapkey');
           this.tapKeyVisible = true;
