@@ -19,7 +19,7 @@ templates = [
           { value: 'BSPACE', type: null, mod: null }
         ],
         [
-          { value: 'FN0', type: 'momentary', mod: null },
+          { value: 'L1', type: 'momentary', mod: null },
           { value: 'A', type: null, mod: null },
           { value: 'S', type: null, mod: null },
           { value: 'D', type: null, mod: null },
@@ -44,32 +44,32 @@ templates = [
           { value: ',', type: null, mod: null },
           { value: '.', type: null, mod: null },
           { value: '/', type: null, mod: null },
-          { value: 'FN1', type: 'momentary', mod: null }
+          { value: 'L2', type: 'momentary', mod: null }
         ],
         [
           { value: 'LCTRL', type: null, mod: null },
-          { value: 'FN1', type: 'momentary', mod: null },
+          { value: 'L2', type: 'momentary', mod: null },
           { value: 'LGUI', type: null, mod: null },
           { value: 'ENTER', type: null, mod: null },
           { value: 'SPACE', type: null, mod: null },
           { value: 'RALT', type: null, mod: null },
           { value: 'RSHIFT', type: null, mod: null },
-          { value: 'FN2', type: 'toggle', mod: null }
+          { value: 'L3', type: 'toggle', mod: null }
         ]
       ],
       [
         [
           { value: 'GRV', type: null, mod: null },
-          { value: 'FN4', type: null, mod: null },
-          { value: 'FN5', type: null, mod: null },
-          { value: 'FN6', type: null, mod: null },
-          { value: 'FN7', type: null, mod: null },
-          { value: 'FN8', type: null, mod: null },
-          { value: 'FN9', type: null, mod: null },
-          { value: 'FN10', type: null, mod: null },
-          { value: 'FN11', type: null, mod: null },
-          { value: 'FN12', type: null, mod: null },
-          { value: 'FN13', type: null, mod: null },
+          { value: '!', type: null, mod: null },
+          { value: '@', type: null, mod: null },
+          { value: '#', type: null, mod: null },
+          { value: '$', type: null, mod: null },
+          { value: '%', type: null, mod: null },
+          { value: '^', type: null, mod: null },
+          { value: '&', type: null, mod: null },
+          { value: '*', type: null, mod: null },
+          { value: '(', type: null, mod: null },
+          { value: ')', type: null, mod: null },
           { value: 'DEL', type: null, mod: null }
         ],
         [
@@ -89,7 +89,7 @@ templates = [
         [
           { value: 'TRNS', type: null, mod: null },
           { value: 'ESC', type: null, mod: null },
-          { value: 'FN20', type: null, mod: null },
+          { value: 'LED', type: null, mod: null },
           { value: 'PRINT', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
@@ -113,7 +113,7 @@ templates = [
       ],
       [
         [
-          { value: 'FN3', type: null, mod: null },
+          { value: '~', type: null, mod: null },
           { value: '1', type: null, mod: null },
           { value: '2', type: null, mod: null },
           { value: '3', type: null, mod: null },
@@ -128,12 +128,12 @@ templates = [
         ],
         [
           { value: 'ESC', type: null, mod: null },
-          { value: 'FN14', type: null, mod: null },
-          { value: 'FN15', type: null, mod: null },
-          { value: 'FN16', type: null, mod: null },
-          { value: 'FN17', type: null, mod: null },
-          { value: 'FN18', type: null, mod: null },
-          { value: 'FN19', type: null, mod: null },
+          { value: '|', type: null, mod: null },
+          { value: '"', type: null, mod: null },
+          { value: '_', type: null, mod: null },
+          { value: '+', type: null, mod: null },
+          { value: '{', type: null, mod: null },
+          { value: '}', type: null, mod: null },
           { value: '4', type: null, mod: null },
           { value: '5', type: null, mod: null },
           { value: '6', type: null, mod: null },
