@@ -76,9 +76,13 @@ def translateList(list):
 
 
 # Takes all list (currently fixed 4) and returns the TMK config file we need to compile the hex file
-def createTemplate(function_actions, keymaps):
-    with open("/app/tmk-modifications/keymap_tv44_template.c", "r") as templatefile:
-        template = templatefile.read()
+def createTemplate(function_actions, keymaps, arrow_layout):
+    if arrow_layout:
+        with open("/app/tmk-modifications/keymap_tv44_arrow_template.c", "r") as templatefile:
+            template = templatefile.read()
+    else:
+        with open("/app/tmk-modifications/keymap_tv44_template.c", "r") as templatefile:
+            template = templatefile.read()
 
     template = template.replace("layers", keymaps, 1)
     template = template.replace("fnactions", function_actions, 1)
@@ -94,13 +98,20 @@ def createLedTemplate(led_layer):
 
     return template
 
-def buildKeyMaps(layers):
+def buildKeyMaps(layers, arrow_layout):
+
+    layout = 'KEYMAP'
+    if arrow_layout:
+        layout = 'KEYMAP_ARROW'
 
     keymaps = ''
-    keymap_template = 'KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
+    keymap_template = '{0}(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'.format(layout)
     keymap_template += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
     keymap_template += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-    keymap_template += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),'
+    if arrow_layout:
+        keymap_template += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace, replace),'
+    else:
+        keymap_template += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),'
 
     for layer in layers:
         layer_map = keymap_template
@@ -182,6 +193,8 @@ def main():
         now = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').split(".")[0]
 
         #Here we take all POST parameters and stuff them into lists. One layer has one list.
+        arrow_layout = (request.form.get('arrow', '') == 'true')
+        print(arrow_layout)
         layer1 = request.form.getlist('L1')
         layer1types = request.form.getlist('LT1')
         layer1mods = request.form.getlist('LM1')
@@ -226,8 +239,12 @@ def main():
         if layer7:
             layers.append({'values': layer7, 'types': layer7types, 'mods': layer7mods})
 
+        keys_per_layer = 44
+        if arrow_layout:
+            keys_per_layer = 45
+
         for layer in layers:
-            if (len(layer['values']) != 44):
+            if (len(layer['values']) != keys_per_layer):
                 return('error: some values are missing! please enter all information!')
 
         layers, fn_actions = buildFnActions(layers)
@@ -239,7 +256,7 @@ def main():
             if not(isAllowed(layer)):
                 return('error: there are invalid characters. please check your imput!<p>{0}</p>'.format(layer))
 
-        keymaps = buildKeyMaps(layers)
+        keymaps = buildKeyMaps(layers, arrow_layout)
         #print(keymaps)
 
         #The next step is very important so we don't have incorrect, or even worse, malicious stuff in our files. We check if everything used is allowed. If not, return an error.
@@ -247,7 +264,7 @@ def main():
             return('error: there are invalid characters. please check your input!')
 
         #We can now insert all the values we got into the template file we use. This point can 'propably' be improved still...
-        configfile = createTemplate(fn_actions, keymaps)
+        configfile = createTemplate(fn_actions, keymaps, arrow_layout)
         ledconfigfile = createLedTemplate('{0}'.format(len(layers)))
 
         #As soon as we have the entire content of our config, we can write it into a file (with the timestamp we made right at the start!)
