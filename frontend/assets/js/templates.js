@@ -33,7 +33,7 @@ templates = [
           { value: '\'', type: 'tapkey', mod: 'L1' }
         ],
         [
-          { value: 'ESC', type: 'tapkey', mod: 'LSHIFT' },
+          { value: 'ESCAPE', type: 'tapkey', mod: 'LSHIFT' },
           { value: 'Z', type: null, mod: null },
           { value: 'X', type: null, mod: null },
           { value: 'C', type: null, mod: null },
@@ -88,7 +88,7 @@ templates = [
         ],
         [
           { value: 'TRNS', type: null, mod: null },
-          { value: 'ESC', type: null, mod: null },
+          { value: 'ESCAPE', type: null, mod: null },
           { value: 'LED', type: null, mod: null },
           { value: 'PRINT', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
@@ -127,7 +127,7 @@ templates = [
           { value: 'TRNS', type: null, mod: null}
         ],
         [
-          { value: 'ESC', type: null, mod: null },
+          { value: 'ESCAPE', type: null, mod: null },
           { value: '|', type: null, mod: null },
           { value: '"', type: null, mod: null },
           { value: '_', type: null, mod: null },
@@ -181,7 +181,7 @@ templates = [
           { value: 'TRNS', type: null, mod: null }
         ],
         [
-          { value: 'ESC', type: null, mod: null },
+          { value: 'ESCAPE', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
@@ -255,7 +255,7 @@ templates = [
           { value: '\'', type: 'tapkey', mod: 'L1' }
         ],
         [
-          { value: 'ESC', type: 'tapkey', mod: 'LSHIFT' },
+          { value: 'ESCAPE', type: 'tapkey', mod: 'LSHIFT' },
           { value: 'Z', type: null, mod: null },
           { value: 'X', type: null, mod: null },
           { value: 'C', type: null, mod: null },
@@ -311,7 +311,7 @@ templates = [
         ],
         [
           { value: 'TRNS', type: null, mod: null },
-          { value: 'ESC', type: null, mod: null },
+          { value: 'ESCAPE', type: null, mod: null },
           { value: 'LED', type: null, mod: null },
           { value: 'PRINT', type: null, mod: null },
           { value: 'L3', type: 'toggle', mod: null },
@@ -351,7 +351,7 @@ templates = [
           { value: 'TRNS', type: null, mod: null}
         ],
         [
-          { value: 'ESC', type: null, mod: null },
+          { value: 'ESCAPE', type: null, mod: null },
           { value: '|', type: null, mod: null },
           { value: '"', type: null, mod: null },
           { value: '_', type: null, mod: null },
@@ -406,7 +406,7 @@ templates = [
           { value: 'TRNS', type: null, mod: null }
         ],
         [
-          { value: 'ESC', type: null, mod: null },
+          { value: 'ESCAPE', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
