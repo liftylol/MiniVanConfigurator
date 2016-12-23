@@ -25,7 +25,7 @@
     <div class="site-container">
       <div class="site-container--left">
         <div class="keyboard-container">
-          <div class="mt4 ml3">
+          <div class="mw6 tc center mv4">
             <a v-on:click="changeLayout" class="button button__secondary"><i class="fa fa-wrench" aria-hidden="true"></i> <span v-if="arrow">Switch to Standard Layout</span><span v-else>Switch to Arrow Layout</span></a>
           </div>
 
@@ -186,11 +186,20 @@
     </div>
 
     <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
-      <div class="context-menu--select">
+      <div class="context-menu--select" v-if="isNotLayer">
         <label class="context-menu--select--label">
           Character:
           <select class="context-menu--select--select" v-model="activeKey.value">
             <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="isLayer">
+        <label class="context-menu--select--label">
+          Layer:
+          <select class="context-menu--select--select" v-model="activeKey.value">
+            <option v-for="layer in layers" v-bind:value="layer">{{ layer }}</option>
           </select>
         </label>
       </div>

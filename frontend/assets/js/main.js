@@ -50,6 +50,9 @@ var v = new Vue({
     buttonTypes: buttonTypes, // List of button types
     allowedCharacters: allowedCharacters, // Allowed set of characters
     modsAndLayers: modsAndLayers,
+    layers: layers,
+    isLayer: false,
+    isNotLayer: true,
     contextMenuVisible: false, // Show we be showing the context menu?
     tapKeyVisible: false,
     contextMenuPosition: { // Position of the context menu
@@ -72,12 +75,21 @@ var v = new Vue({
         if (keyboard.type == 'toggle') {
           classes.push('keyboard--key--container__toggle');
           this.tapKeyVisible = false;
+          this.isLayer = true;
+          this.isNotLayer = false;
         } else if (keyboard.type == 'momentary') {
           classes.push('keyboard--key--container__momentary');
           this.tapKeyVisible = false;
+          this.isLayer = true;
+          this.isNotLayer = false;
         } else if (keyboard.type == 'tapkey') {
           classes.push('keyboard--key--container__tapkey');
           this.tapKeyVisible = true;
+          this.isLayer = false;
+          this.isNotLayer = true;
+        } else {
+          this.isLayer = false;
+          this.isNotLayer = true;
         }
       }
 
@@ -112,9 +124,11 @@ var v = new Vue({
           this.tapKeyVisible = false;
       }
       if (this.activeKey.type == 'toggle' || this.activeKey.type == 'momentary') {
-          this.allowedCharacters = layers;
+          this.isLayer = true;
+          this.isNotLayer = false;
       } else {
-          this.allowedCharacters = allowedCharacters;
+          this.isLayer = false;
+          this.isNotLayer = true;
       }
     },
 
