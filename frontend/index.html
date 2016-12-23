@@ -30,6 +30,11 @@
           </div>
 
           <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
+              <input
+                name="arrow"
+                type="hidden"
+                v-model="arrow"
+              >
             <div v-for="(keyboardIndex, keyboard) in template" class="keyboard-container">
               <div class="keyboard--layer">
                 <h2 v-if="keyboardIndex == 0">Base Layer</h2>
