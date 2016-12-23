@@ -10,15 +10,15 @@ html {
   font-family: 'Open Sans', sans-serif;
 }
 
-.site-container--right ::-webkit-scrollbar {
+/*.site-container--right ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
 }
 .site-container--right ::-webkit-scrollbar-thumb {
     border-radius: 2px;
     background-color: rgba(400,400,400,.5);
-    /*-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);*/
-}
+    /*-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}*/
 
 .site-container {
   display: table;
