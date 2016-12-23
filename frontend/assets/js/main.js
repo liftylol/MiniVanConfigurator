@@ -46,8 +46,8 @@ modsAndLayers = modifiers.concat(layers);
 var v = new Vue({
   el: 'body',
   data: {
-    layout: layouts[0]['keys'], // Layout
-    template: templates[0]['keys'], // Template
+    layout: layouts[1]['keys'], // Layout
+    template: templates[1]['keys'], // Template
     activeKey: null, // Currently active key
     buttonTypes: buttonTypes, // List of button types
     allowedCharacters: allowedCharacters, // Allowed set of characters
@@ -58,7 +58,7 @@ var v = new Vue({
       top: 0,
       left: 0
     },
-    layerLimit: 33 // Maximum number of layers
+    layerLimit: 8 // Maximum number of layers
   },
   methods: {
     /**
@@ -169,7 +169,7 @@ var v = new Vue({
       if (this.template.length < this.layerLimit) {
         this.template.push(this.createNewLayer(this.layout));
       } else {
-        alert('Cannot add any more layers.')
+        alert('Sorry, cannot add any more layers.')
       }
     },
 

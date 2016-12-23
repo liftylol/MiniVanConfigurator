@@ -98,7 +98,7 @@ layouts = [
         { size: 100, type: 'primary' },
         { size: 100, type: 'primary' },
         { size: 100, type: 'primary' },
-        { size: 100, type: 'primary' },
+        { size: 100, type: 'secondary' },
         { size: 100, type: 'secondary' }
       ],
       [
