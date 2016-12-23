@@ -10,25 +10,33 @@ html {
   font-family: 'Open Sans', sans-serif;
 }
 
+/*.site-container--right ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+.site-container--right ::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: rgba(400,400,400,.5);
+    /*-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}*/
+
 .site-container {
   display: table;
-  min-height: 100%;
   width: 100%;
 }
 
 .site-container--left,
 .site-container--right {
-  min-height: 100%;
   display: table-cell;
   vertical-align: top;
 }
 
 .site-container--left {
-  width: 70%;
+  width: 80%;
 }
 
 .site-container--right {
-  width: 30%;
+  width: 20%;
   padding: 0 20px;
 }
 

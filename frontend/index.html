@@ -25,9 +25,10 @@
     <div class="site-container">
       <div class="site-container--left">
         <div class="keyboard-container">
-          <div class="actions mw6 tc center mv4">
+          <div class="mt4 ml3">
             <a v-on:click="changeLayout" class="button button__secondary"><i class="fa fa-wrench" aria-hidden="true"></i> <span v-if="arrow">Switch to Standard Layout</span><span v-else>Switch to Arrow Layout</span></a>
           </div>
+
           <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
               <input
                 name="arrow"
@@ -81,12 +82,9 @@
       </div>
 
       <div class="site-container--right bg-dark-gray">
-        <div class="information white mw6">
+        <div class="information white mw6 overflow-y-scroll vh-100 fixed top--1 pt6">
           <h1 class="f2 tc">Table of Contents</h1>
-          <p class="tc">Use either the symbol itself<br>or the name in parentheses</p>
-
-          <h2 class="mt4">Accepted Keys</h2>
-
+          <h3 class="tc">(Scroll for more)</h3>
           <p class="f4">
           <strong>Standard Keys:</strong><br>
           A-Z, 0-9<br>
@@ -170,7 +168,12 @@
           <br><br>
 
           <strong>Media Keys:</strong><br>
-          MSTP, MPLY, MPRV, MNXT, VOLU, VOLD
+          MSTP<br>
+          MPLY<br>
+          MPRV<br>
+          MNXT<br>
+          VOLU<br>
+          VOLD
           <br><br>
 
           <strong>Keyboard:</strong><br>
