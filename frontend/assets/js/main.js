@@ -39,8 +39,6 @@ allowedCharacters = allowedCharacters.concat(numpad);
 allowedCharacters = allowedCharacters.concat(modifiers);
 allowedCharacters = allowedCharacters.concat(media);
 allowedCharacters = allowedCharacters.concat(keyboard);
-allowedCharacters = allowedCharacters.concat(duplicate_codes);
-allowedCharacters = allowedCharacters.concat(layers);
 modsAndLayers = modifiers.concat(layers);
 
 var v = new Vue({
