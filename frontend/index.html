@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>The Van Configurator</title>
+    <title>MiniVan Configurator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
@@ -18,7 +18,7 @@
   <body class="" v-on:click="hideContextMenu">
     <div class="bg-dark-gray white pv2 tc f3">
       <h1>
-        The Van Configurator
+        MiniVan Configurator
       </h1>
     </div>
     <div class="site-container">
@@ -29,7 +29,7 @@
               <div class="keyboard--layer">
                 <h2 v-if="keyboardIndex == 0">Base Layer</h2>
                 <h2 v-else>
-                  Layer {{ keyboardIndex - 1 }}
+                  Layer {{ keyboardIndex }}
                   <a v-on:click="removeLayer($event, keyboard, keyboardIndex)" class="keyboard--layer--remove button button__error bg-light-red gray"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 </h2>
 
@@ -42,10 +42,20 @@
                     >
                       <input
                         class="keyboard--key keyboard--key__{{ key.type }}"
-                        name="L3"
+                        name="L{{ keyboardIndex + 1 }}"
                         type="text"
                         v-model="keyboard[rowIndex][keyIndex].value"
                         v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
+                      >
+                      <input
+                        name="LM{{ keyboardIndex + 1 }}"
+                        type="hidden"
+                        v-model="keyboard[rowIndex][keyIndex].mod"
+                      >
+                      <input
+                        name="LT{{ keyboardIndex + 1 }}"
+                        type="hidden"
+                        v-model="keyboard[rowIndex][keyIndex].type"
                       >
                     </div>
                   </div>
@@ -57,7 +67,7 @@
 
         <div class="actions mw6 tc center mv4">
           <a v-on:click="addLayer" class="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add layer</a>
-          <a v-on:click="addLayer" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
+          <a v-on:click="makeHex" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
         </div>
       </div>
 
@@ -137,6 +147,15 @@
           Character:
           <select class="context-menu--select--select" v-model="activeKey.value">
             <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="tapKeyVisible">
+        <label class="context-menu--select--label">
+          Mod/Layer:
+          <select class="context-menu--select--select" v-model="activeKey.mod">
+            <option v-for="ml in modsAndLayers" v-bind:value="ml">{{ ml }}</option>
           </select>
         </label>
       </div>
