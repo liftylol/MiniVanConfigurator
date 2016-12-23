@@ -17,13 +17,15 @@
   </head>
 
   <body class="" v-on:click="hideContextMenu">
-    <div class="bg-dark-gray white pv2 tc f3">
+
+    <div class="site-container">
+        <div class="site-container--header bg-dark-gray white pv2 tc f3">
       <h1>
         MiniVan Configurator
       </h1>
     </div>
-    <div class="site-container">
-      <div class="site-container--left">
+        <div class="site-container--main">
+            <div class="site-container--left">
         <div class="keyboard-container">
           <div class="mw6 tc center mv4">
             <a v-on:click="changeLayout" class="button button__secondary"><i class="fa fa-wrench" aria-hidden="true"></i> <span v-if="arrow">Switch to Standard Layout</span><span v-else>Switch to Arrow Layout</span></a>
@@ -80,8 +82,7 @@
           <a v-on:click="makeHex" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
         </div>
       </div>
-
-      <div class="site-container--right bg-dark-gray">
+            <div class="site-container--right bg-dark-gray">
         <div class="information white mw6 overflow-y-scroll vh-100 fixed top--1 pt6">
           <h1 class="f2 tc">Table of Contents</h1>
           <h3 class="tc">(Scroll for more)</h3>
@@ -183,6 +184,7 @@
         </p>
         </div>
       </div>
+        </div>
     </div>
 
     <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">

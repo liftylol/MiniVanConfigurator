@@ -25,6 +25,16 @@ html {
   width: 100%;
 }
 
+.site-container--header {
+  display: table-row;
+}
+
+.site-container--main {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
 .site-container--left,
 .site-container--right {
   display: table-cell;
@@ -36,7 +46,7 @@ html {
 }
 
 .site-container--right {
-  width: 20%;
+  width: 100%;
   padding: 0 20px;
 }
 
