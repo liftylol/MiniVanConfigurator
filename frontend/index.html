@@ -25,6 +25,9 @@
     <div class="site-container">
       <div class="site-container--left">
         <div class="keyboard-container">
+          <div class="actions mw6 tc center mv4">
+            <a v-on:click="changeLayout" class="button button__secondary"><i class="fa fa-wrench" aria-hidden="true"></i> <span v-if="arrow">Switch to Standard Layout</span><span v-else>Switch to Arrow Layout</span></a>
+          </div>
           <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
             <div v-for="(keyboardIndex, keyboard) in template" class="keyboard-container">
               <div class="keyboard--layer">
@@ -79,24 +82,52 @@
 
           <h2 class="mt4">Accepted Keys</h2>
 
-          <p class="f5">A-Z, 0-9<br>
+          <p class="f4">
+          <strong>Standard Keys:</strong><br>
+          A-Z, 0-9<br>
           ENTER<br>
-          ESCAPE (ESC)<br>
+          ESCAPE<br>
           BSPACE<br>
           TAB<br>
           SPACE<br>
-          - and _ (MINUS)<br>
-          = and + (EQUAL)<br>
-          [ and { (LBRACKET)<br>
-          ] and } (RBRACKET)<br>
-          \ and | (BSLASH)<br>
-          Non-US # and ~ (NONUS_HASH)<br>
-          ; and : (SCOLON)<br>
-          ' and “ (QUOTE)<br>
-          Grave Accent and Tilde (GRV)<br>
-          , and < (COMMA)<br>
-          . and > (DOT)<br>
-          / and ? (SLASH)<br>
+          -<br>
+          =<br>
+          [<br>
+          ]<br>
+          \<br>
+          NONUS_HASH<br>
+          ;<br>
+          '<br>
+          `<br>
+          ,<br>
+          .<br>
+          /<br>
+          <br>
+
+          <strong>Shifted Keys:</strong><br>
+          _<br>
+          +<br>
+          {<br>
+          }<br>
+          |<br>
+          :<br>
+          "<br>
+          ~<br>
+          <<br>
+          ><br>
+          ?<br>
+          !<br>
+          @<br>
+          #<br>
+          $<br>
+          %<br>
+          ^<br>
+          *<br>
+          (<br>
+          )<br>
+          <br>
+
+          <strong>Standard Functions:</strong><br>
           CAPS<br>
           F1-F24<br>
           PRINT<br>
@@ -112,6 +143,9 @@
           LEFT<br>
           UP<br>
           DOWN<br>
+          <br>
+
+          <strong>Numpad:</strong><br>
           NUMLOCK<br>
           KP_SLASH<br>
           KP_ASTERISK<br>
@@ -127,21 +161,16 @@
           LCTRL&nbsp;&nbsp;&nbsp;&nbsp;RCTRL<br>
           LSHIFT&nbsp;&nbsp;&nbsp;RSHIFT<br>
           LALT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RALT<br>
-          LGUI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RGUIS
+          LGUI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RGUI
           <br><br>
 
           <strong>Media Keys:</strong><br>
           MSTP, MPLY, MPRV, MNXT, VOLU, VOLD
           <br><br>
 
-          <strong>FN:</strong><br>
-          F1-24
-          <br><br>
-
-          <strong>Layers:</strong><br>
-          L1-7
-          <br><br>
-
+          <strong>Keyboard:</strong><br>
+          L1-L7<br>
+          LED (LED toggle)<br>
           TRNS to make key 'transparent'
         </p>
         </div>

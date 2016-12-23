@@ -314,7 +314,7 @@ templates = [
           { value: 'ESC', type: null, mod: null },
           { value: 'LED', type: null, mod: null },
           { value: 'PRINT', type: null, mod: null },
-          { value: 'TRNS', type: null, mod: null },
+          { value: 'L3', type: 'toggle', mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'MSTP', type: null, mod: null },

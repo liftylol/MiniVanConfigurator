@@ -19,7 +19,7 @@ buttonTypes = [
 
 alphas = ['A', 'B', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-standard_functions = ['ENTER', 'ENT', 'ESCAPE', 'BSPACE', 'TAB', 'SPACE', 'CAPS', 'PRINT', 'SCROLL', 'PAUSE', 'INSERT', 'HOME', 'PGUP', 'DEL', 'END', 'PGDOWN', 'RIGHT', 'LEFT', 'UP', 'DOWN'];
+standard_functions = ['ENTER', 'ENT', 'ESCAPE', 'BSPACE', 'TAB', 'SPACE', 'CAPS', 'PRINT', 'SCROLL', 'PAUSE', 'INSERT', 'HOME', 'PGUP', 'DEL', 'END', 'PGDOWN', 'RIGHT', 'LEFT', 'UP', 'DOWN', 'NONUS_HASH'];
 special_characters = ['\\', '\'', '-', '=', '[', ']', ',', '.', '/', '`', ';'];
 shifted_characters = ['|', '"', '_', '+', '{', '}', '<', '>', '?', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ':'];
 eff_keys = ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19', 'F20', 'F21', 'F22', 'F23', 'F24'];
@@ -46,8 +46,8 @@ modsAndLayers = modifiers.concat(layers);
 var v = new Vue({
   el: 'body',
   data: {
-    layout: layouts[1]['keys'], // Layout
-    template: templates[1]['keys'], // Template
+    layout: layouts[0]['keys'], // Layout
+    template: templates[0]['keys'], // Template
     activeKey: null, // Currently active key
     buttonTypes: buttonTypes, // List of button types
     allowedCharacters: allowedCharacters, // Allowed set of characters
@@ -58,6 +58,9 @@ var v = new Vue({
       top: 0,
       left: 0
     },
+    fnActionCount: 0,
+    fnActionLimit: 32,
+    arrow: false,
     layerLimit: 8 // Maximum number of layers
   },
   methods: {
@@ -157,6 +160,23 @@ var v = new Vue({
         event.preventDefault();
 
         document.forms["keyboard-form"].submit();
+    },
+
+    /**
+     * changes the layout
+     */
+    changeLayout: function(event) {
+        event.preventDefault();
+
+        if (this.arrow) {
+            this.layout = layouts[0]['keys'];
+            this.template = templates[0]['keys'];
+            this.arrow = false;
+        } else {
+            this.layout = layouts[1]['keys'];
+            this.template = templates[1]['keys'];
+            this.arrow = true;
+        }
     },
 
     /**
