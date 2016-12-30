@@ -40,6 +40,13 @@ allowedCharacters = allowedCharacters.concat(modifiers);
 allowedCharacters = allowedCharacters.concat(media);
 allowedCharacters = allowedCharacters.concat(keyboard);
 modsAndLayers = modifiers.concat(layers);
+tapKeys = alphas.concat(numbers);
+tapKeys = tapKeys.concat(standard_functions);
+tapKeys = tapKeys.concat(special_characters);
+tapKeys = tapKeys.concat(numpad);
+tapKeys = tapKeys.concat(eff_keys);
+tapKeys = tapKeys.concat(media);
+
 
 var v = new Vue({
   el: 'body',
@@ -50,9 +57,10 @@ var v = new Vue({
     buttonTypes: buttonTypes, // List of button types
     allowedCharacters: allowedCharacters, // Allowed set of characters
     modsAndLayers: modsAndLayers,
+    tapKeys : tapKeys,
     layers: layers,
     isLayer: false,
-    isNotLayer: true,
+    isNormal: true,
     contextMenuVisible: false, // Show we be showing the context menu?
     tapKeyVisible: false,
     contextMenuPosition: { // Position of the context menu
@@ -76,20 +84,21 @@ var v = new Vue({
           classes.push('keyboard--key--container__toggle');
           this.tapKeyVisible = false;
           this.isLayer = true;
-          this.isNotLayer = false;
+          this.isNormal = false;
         } else if (keyboard.type == 'momentary') {
           classes.push('keyboard--key--container__momentary');
           this.tapKeyVisible = false;
           this.isLayer = true;
-          this.isNotLayer = false;
+          this.isNormal = false;
         } else if (keyboard.type == 'tapkey') {
           classes.push('keyboard--key--container__tapkey');
           this.tapKeyVisible = true;
           this.isLayer = false;
-          this.isNotLayer = true;
+          this.isNormal = false;
         } else {
+          this.tapKeyVisible = false;
           this.isLayer = false;
-          this.isNotLayer = true;
+          this.isNormal = true;
         }
       }
 
@@ -125,10 +134,13 @@ var v = new Vue({
       }
       if (this.activeKey.type == 'toggle' || this.activeKey.type == 'momentary') {
           this.isLayer = true;
-          this.isNotLayer = false;
       } else {
           this.isLayer = false;
-          this.isNotLayer = true;
+      }
+      if (this.activeKey.type == null) {
+          this.isNormal = true;
+      } else {
+          this.isNormal = false;
       }
     },
 

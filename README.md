@@ -15,7 +15,7 @@ I'll list everything below that i want to change/add later on so if anyone is re
 - In the root directory run
 ```
 docker build -t miniconfig .
-docker run -it --rm -p 8000:80 --name my-running-app miniconfig
+docker run -it --rm -p 8000:80 -e PORT=80 --name my-running-app miniconfig
 ```
 - Navigate to http://localhost:8000 in your web browser
 

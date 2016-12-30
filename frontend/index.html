@@ -186,11 +186,20 @@
     </div>
 
     <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
-      <div class="context-menu--select" v-if="isNotLayer">
+      <div class="context-menu--select" v-if="isNormal">
         <label class="context-menu--select--label">
           Character:
           <select class="context-menu--select--select" v-model="activeKey.value">
             <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="tapKeyVisible">
+        <label class="context-menu--select--label">
+          Character:
+          <select class="context-menu--select--select" v-model="activeKey.value">
+            <option v-for="tapKey in tapKeys" v-bind:value="tapKey">{{ tapKey }}</option>
           </select>
         </label>
       </div>
