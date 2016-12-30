@@ -15,16 +15,16 @@ ALLOWED_CHARACTERS = {'A', 'B', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
                       'FN27', 'FN28', 'FN29', 'FN30', 'FN31', 'TRNS', 'MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD',
                       'PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH',
                       'QUOTE', 'GRV', 'COMMA', 'DOT', 'SLASH', 'DELETE', 'NLCK', 'RALT', 'LGUI', 'RGUI', 'FN0', 'FN1',
-                      'FN2', 'ESC', 'FN3', 'FN4', 'FN5', 'FN6', 'FN7', 'FN8', 'FN9', 'FN10', '\''}
+                      'FN2', 'ESC', 'FN3', 'FN4', 'FN5', 'FN6', 'FN7', 'FN8', 'FN9', 'FN10', '\'', 'APP'}
 
 TRANSLATE_CHARACTERS = ['PRINT', 'SCROLL', '-', '_', '=', '+', '[', '{', ']', '}', '\\', '|',
                         '#', '~', ';', ':', '\'', '"', '`', ',', '<', '.', '>', '/', '?', 'DEL', 'NUM',
-                        'LSHIFT', 'RSHIFT', 'LCTRL', 'RCTRL']
+                        'LSHIFT', 'RSHIFT', 'LCTRL', 'RCTRL', 'MENU']
 
 TRANSLATED_CHARACTERS = ['PSCR', 'SLCK', 'MINUS', 'MINUS', 'EQUAL', 'EQUAL', 'LBRACKET', 'LBRACKET', 'RBRACKET',
                          'RBRACKET', 'BSLASH', 'BSLASH', 'NONUS_HASH', 'NONUS_HASH', 'SCOLON', 'SCOLON', 'QUOTE',
                          'QUOTE', 'GRV', 'COMMA', 'COMMA', 'DOT', 'DOT', 'SLASH', 'SLASH', 'DELETE', 'NLCK',
-                         'LSFT', 'RSFT', 'LCTL', 'RCTL']
+                         'LSFT', 'RSFT', 'LCTL', 'RCTL', 'APP']
 
 SHIFTED_CHARACTERS = ['|', '"', '_', '+', '{', '}', '<', '>', '?', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ':']
 UNSHIFTED_CHARACTERS=['BSLS','QUOT','MINS', 'EQL', 'LBRC', 'RBRC', 'COMM', 'DOT', 'SLSH', 'GRV', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'SCLN']

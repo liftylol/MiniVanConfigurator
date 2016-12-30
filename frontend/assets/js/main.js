@@ -24,7 +24,7 @@ special_characters = ['\\', '\'', '-', '=', '[', ']', ',', '.', '/', '`', ';'];
 shifted_characters = ['|', '"', '_', '+', '{', '}', '<', '>', '?', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ':'];
 eff_keys = ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19', 'F20', 'F21', 'F22', 'F23', 'F24'];
 numpad = ['NUM', 'KPSLASH', 'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9', 'KPDOT', 'KPEQUAL'];
-modifiers = ['LCTRL', 'RCTRL', 'LSHIFT', 'RSHIFT', 'LALT', 'RALT', 'LGUI', 'RGUI'];
+modifiers = ['LCTRL', 'RCTRL', 'LSHIFT', 'RSHIFT', 'LALT', 'RALT', 'LGUI', 'RGUI', 'MENU'];
 media = ['MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD'];
 keyboard = ['TRNS', 'LED'];
 duplicate_codes = ['PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH', 'QUOTE', 'GRV', 'COMMA', 'DOT', 'SLASH', 'DELETE', 'NLCK', 'RALT', 'ESC'];
@@ -119,6 +119,10 @@ var v = new Vue({
         this.contextMenuPosition.left = position.left;
       }.bind(this));
     },
+
+    // buildKeymapJson: function (event) {
+    //     console.log(this.)
+    // }
 
     /**
      * Show context menu
