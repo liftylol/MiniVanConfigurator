@@ -7,4 +7,5 @@ RUN apt-get install -y \
   dfu-programmer
 RUN chown -R www-data /app/tmk_keyboard
 RUN chmod -R 774 /app/tmk_keyboard
+USER $MOD_WSGI_USER:$MOD_WSGI_GROUP
 CMD [ "miniconfig.wsgi" ]
