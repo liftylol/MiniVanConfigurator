@@ -70,7 +70,8 @@ var v = new Vue({
     fnActionCount: 0,
     fnActionLimit: 32,
     arrow: false,
-    layerLimit: 8 // Maximum number of layers
+    layerLimit: 8, // Maximum number of layers
+    keymapRaw: ''
   },
   methods: {
     /**
@@ -120,9 +121,31 @@ var v = new Vue({
       }.bind(this));
     },
 
-    // buildKeymapJson: function (event) {
-    //     console.log(this.)
-    // }
+    buildKeymapJson: function () {
+        var keymap = [];
+        var layer = [];
+        var row = [];
+        var key = {};
+        for (layerIndex in this.template) {
+            layer = [];
+            for (rowIndex in this.template[layerIndex]) {
+                row = [];
+                for (keyIndex in this.template[layerIndex][rowIndex]) {
+                    var k = this.template[layerIndex][rowIndex][keyIndex]
+                    key = {value: k.value, type: k.type, mod: k.mod};
+                    row.push(key);
+                }
+                layer.push(row);
+            }
+            keymap.push(layer);
+        }
+        this.keymapRaw = JSON.stringify(keymap);
+    },
+
+    readKeymapJson: function() {
+        var keymap = document.getElementById("rawmap").value;
+        this.template = JSON.parse(keymap);
+    },
 
     /**
      * Show context menu

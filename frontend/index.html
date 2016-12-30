@@ -79,6 +79,13 @@
           <a v-on:click="addLayer" class="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add layer</a>
           <a v-on:click="makeHex" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
         </div>
+        <div class="actions mw6 tc center mv4">
+          <a v-on:click="buildKeymapJson" class="button button__secondary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Configuration</a>
+          <a v-on:click="readKeymapJson" class="button button__secondary"><i class="fa fa-upload" aria-hidden="true"></i> Load Configuration</a>
+        </div>
+        <div class="rawoutput mw8 tc center mv4">
+          <textarea id="rawmap">{{ keymapRaw }}</textarea>
+        </div>
       </div>
 
       <div class="site-container--right bg-dark-gray">
