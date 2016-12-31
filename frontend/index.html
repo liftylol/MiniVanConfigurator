@@ -84,7 +84,7 @@
           <a v-on:click="readKeymapJson" class="button button__secondary"><i class="fa fa-upload" aria-hidden="true"></i> Load Configuration</a>
         </div>
         <div class="rawoutput mw8 tc center mv4">
-          <textarea id="rawmap">{{ keymapRaw }}</textarea>
+          <textarea id="rawmap" v-model="keymapRaw">{{ keymapRaw }}</textarea>
         </div>
       </div>
 

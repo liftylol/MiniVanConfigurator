@@ -8,9 +8,9 @@ ALLOWED_CHARACTERS = {'A', 'B', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
                       '~', ';', ':', '‘', '"', '^', ',', '<', '.', '>', '/', '?', 'CAPS', 'F1', 'F2', 'F3', 'F4', 'F5',
                       'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19',
                       'F20', 'F21', 'F22', 'F23', 'F24', 'PRINT', 'SCROLL', 'PAUSE', 'INSERT', 'HOME', 'PGUP', 'DEL',
-                      'END', 'PGDOWN', 'RIGHT', 'LEFT', 'UP', 'DOWN', 'NUM', 'KPSLASH', 'KPASTERISK', 'KPMINUS',
-                      'KPPLUS', 'KPENTER', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9',
-                      'KPDOT', 'KPEQUAL', 'LCTL', 'RCTL', 'LSFT', 'RSFT', 'LALT', 'FN11', 'FN12', 'FN13', 'FN14',
+                      'END', 'PGDOWN', 'RIGHT', 'LEFT', 'UP', 'DOWN', 'NUM', 'KP_SLASH', 'KP_ASTERISK', 'KP_MINUS',
+                      'KP_PLUS', 'KP_ENTER', 'KP_0', 'KP_1', 'KP_2', 'KP_3', 'KP_4', 'KP_5', 'KP_6', 'KP_7', 'KP_8', 'KP_9',
+                      'KP_DOT', 'KP_EQUAL', 'LCTL', 'RCTL', 'LSFT', 'RSFT', 'LALT', 'FN11', 'FN12', 'FN13', 'FN14',
                       'FN15', 'FN16', 'FN17', 'FN18', 'FN19', 'FN20', 'FN21', 'FN22', 'FN23', 'FN24', 'FN25', 'FN26',
                       'FN27', 'FN28', 'FN29', 'FN30', 'FN31', 'TRNS', 'MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD',
                       'PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH',
@@ -19,12 +19,16 @@ ALLOWED_CHARACTERS = {'A', 'B', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
 
 TRANSLATE_CHARACTERS = ['PRINT', 'SCROLL', '-', '_', '=', '+', '[', '{', ']', '}', '\\', '|',
                         '#', '~', ';', ':', '\'', '"', '`', ',', '<', '.', '>', '/', '?', 'DEL', 'NUM',
-                        'LSHIFT', 'RSHIFT', 'LCTRL', 'RCTRL', 'MENU']
+                        'LSHIFT', 'RSHIFT', 'LCTRL', 'RCTRL', 'MENU', 'KPSLASH', 'KPASTERISK', 'KPMINUS',
+                        'KPPLUS', 'KPENTER', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9',
+                        'KPDOT', 'KPEQUAL']
 
 TRANSLATED_CHARACTERS = ['PSCR', 'SLCK', 'MINUS', 'MINUS', 'EQUAL', 'EQUAL', 'LBRACKET', 'LBRACKET', 'RBRACKET',
                          'RBRACKET', 'BSLASH', 'BSLASH', 'NONUS_HASH', 'NONUS_HASH', 'SCOLON', 'SCOLON', 'QUOTE',
                          'QUOTE', 'GRV', 'COMMA', 'COMMA', 'DOT', 'DOT', 'SLASH', 'SLASH', 'DELETE', 'NLCK',
-                         'LSFT', 'RSFT', 'LCTL', 'RCTL', 'APP']
+                         'LSFT', 'RSFT', 'LCTL', 'RCTL', 'APP', 'KP_SLASH', 'KP_ASTERISK', 'KP_MINUS',
+                         'KP_PLUS', 'KP_ENTER', 'KP_0', 'KP_1', 'KP_2', 'KP_3', 'KP_4', 'KP_5', 'KP_6', 'KP_7', 'KP_8', 'KP_9',
+                         'KP_DOT', 'KP_EQUAL']
 
 SHIFTED_CHARACTERS = ['|', '"', '_', '+', '{', '}', '<', '>', '?', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ':']
 UNSHIFTED_CHARACTERS=['BSLS','QUOT','MINS', 'EQL', 'LBRC', 'RBRC', 'COMM', 'DOT', 'SLSH', 'GRV', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'SCLN']
