@@ -81,24 +81,11 @@ def translateList(list):
 
 # Takes all list (currently fixed 4) and returns the TMK config file we need to compile the hex file
 def createTemplate(function_actions, keymaps, arrow_layout):
-    if arrow_layout:
-        with open("/app/tmk-modifications/keymap_tv44_arrow_template.c", "r") as templatefile:
-            template = templatefile.read()
-    else:
-        with open("/app/tmk-modifications/keymap_tv44_template.c", "r") as templatefile:
-            template = templatefile.read()
+    with open("/app/tmk-modifications/keymap_tv44_template.c", "r") as templatefile:
+        template = templatefile.read()
 
     template = template.replace("layers", keymaps, 1)
     template = template.replace("fnactions", function_actions, 1)
-
-    return template
-
-# Takes all list (currently fixed 4) and returns the TMK config file we need to compile the hex file
-def createLedTemplate(led_layer):
-    with open("/app/tmk-modifications/led_template.c", "r") as templatefile:
-        template = templatefile.read()
-
-    template = template.replace("ledlayer", led_layer, 1)
 
     return template
 
@@ -126,7 +113,7 @@ def buildKeyMaps(layers, arrow_layout):
 
     return keymaps
 
-def fnActionLayer(layer_count, fn_actions_list, l1, lt1, lm1):
+def fnActionLayer(fn_actions_list, l1, lt1, lm1):
 
     for i1, val1 in enumerate(lt1):
         if lt1[i1] == 'momentary' or lt1[i1] == 'toggle':
@@ -187,7 +174,7 @@ def fnActionLayer(layer_count, fn_actions_list, l1, lt1, lm1):
             l1[i1] = 'FN{0}'.format(action_index)
 
         if l1[i1] == 'LED':
-            action = 'ACTION_LAYER_TOGGLE({0}),'.format(layer_count)
+            action = 'ACTION_BACKLIGHT_STEP(),'
             try:
                 action_index = fn_actions_list.index(action)
             except ValueError:
@@ -205,7 +192,7 @@ def buildFnActions(layers):
     updated_layers = []
 
     for layer in layers:
-        fn_actions_list, ulay = fnActionLayer(len(layers), fn_actions_list, layer['values'], layer['types'], layer['mods'])
+        fn_actions_list, ulay = fnActionLayer(fn_actions_list, layer['values'], layer['types'], layer['mods'])
         updated_layers.append(ulay)
 
     for index, action in enumerate(fn_actions_list):
@@ -299,23 +286,16 @@ def main():
 
         #We can now insert all the values we got into the template file we use. This point can 'propably' be improved still...
         configfile = createTemplate(fn_actions, keymaps, arrow_layout)
-        ledconfigfile = createLedTemplate('{0}'.format(len(layers)))
 
         #As soon as we have the entire content of our config, we can write it into a file (with the timestamp we made right at the start!)
         filename = "keymap_tv44_"+now+".c"
-        ledfilename = "led_"+now+".c"
         callname = "tv44_"+now
-        ledname = "led_"+now
         with open("/app/tmk_keyboard/keyboard/tv44/"+filename, "w+") as templatefile:
             templatefile.write(configfile)
             templatefile.close()
 
-        with open("/app/tmk_keyboard/keyboard/tv44/"+ledfilename, "w+") as templatefile:
-            templatefile.write(ledconfigfile)
-            templatefile.close()
-
         #everything is set up, now we just have to make our hex file with a system call
-        callstring = "make KEYMAP="+callname+" TARGETFILE="+callname+" LEDCONF="+ledname+" > /dev/null"
+        callstring = "make KEYMAP="+callname+" TARGETFILE="+callname+" > /dev/null"
         subprocess.call(callstring, shell=True, cwd="/app/tmk_keyboard/keyboard/tv44/")
 
         #everything is done, we have to return the hex file! :)
