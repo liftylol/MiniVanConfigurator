@@ -84,7 +84,8 @@ html {
 
 .keyboard--key--container__toggle:after,
 .keyboard--key--container__momentary:after,
-.keyboard--key--container__tapkey:after {
+.keyboard--key--container__tapkey:after,
+.keyboard--key--container__oneshot:after {
   content: '';
   position: absolute;
   display: block;
@@ -109,6 +110,10 @@ html {
 
 .keyboard--key--container__tapkey:after {
   border-bottom-color: #9CE3B2;
+}
+
+.keyboard--key--container__oneshot:after {
+  border-bottom-color: #B29CE3;
 }
 
 .keyboard--key--container__100 {

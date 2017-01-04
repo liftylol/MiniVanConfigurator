@@ -14,6 +14,10 @@ buttonTypes = [
   {
     name: 'Tap Key',
     id: 'tapkey'
+  },
+  {
+    name: 'One Shot Modifier',
+    id: 'oneshot'
   }
 ];
 
@@ -23,8 +27,8 @@ standard_functions = ['ENTER', 'ENT', 'ESCAPE', 'BSPACE', 'TAB', 'SPACE', 'CAPS'
 special_characters = ['\\', '\'', '-', '=', '[', ']', ',', '.', '/', '`', ';'];
 shifted_characters = ['|', '"', '_', '+', '{', '}', '<', '>', '?', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ':'];
 eff_keys = ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', 'F19', 'F20', 'F21', 'F22', 'F23', 'F24'];
-numpad = ['NUM', 'KPSLASH', 'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9', 'KPDOT', 'KPEQUAL'];
-modifiers = ['LCTRL', 'RCTRL', 'LSHIFT', 'RSHIFT', 'LALT', 'RALT', 'LGUI', 'RGUI', 'MENU'];
+numpad = ['NUM', 'KPSLASH', 'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9', 'KPDOT', 'KPEQUAL', 'MENU'];
+modifiers = ['LCTRL', 'RCTRL', 'LSHIFT', 'RSHIFT', 'LALT', 'RALT', 'LGUI', 'RGUI'];
 media = ['MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD'];
 keyboard = ['TRNS', 'LED'];
 duplicate_codes = ['PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH', 'QUOTE', 'GRV', 'COMMA', 'DOT', 'SLASH', 'DELETE', 'NLCK', 'RALT', 'ESC'];
@@ -48,30 +52,65 @@ tapKeys = tapKeys.concat(eff_keys);
 tapKeys = tapKeys.concat(media);
 
 
+function setInitialKeymap() {
+    var sKeymap = localStorage.getItem('user-keymap');
+    if (sKeymap) {
+        return JSON.parse(sKeymap)['keymap'];
+    }
+
+    return templates[0]['keys'];
+}
+
+function setInitialLayout() {
+    var sKeymap = localStorage.getItem('user-keymap');
+    if (sKeymap) {
+        if (JSON.parse(sKeymap)['arrow']) {
+            return layouts[1]['keys'];
+        }
+    }
+
+    return layouts[0]['keys'];
+}
+
+function setInitialArrow() {
+    var sKeymap = localStorage.getItem('user-keymap');
+    if (sKeymap) {
+        return JSON.parse(sKeymap)['arrow'];
+    }
+
+    return false;
+}
+
+
 var v = new Vue({
   el: 'body',
   data: {
-    layout: layouts[0]['keys'], // Layout
-    template: templates[0]['keys'], // Template
+    layout: setInitialLayout(), // Layout
+    template: setInitialKeymap(), // Template
     activeKey: null, // Currently active key
     buttonTypes: buttonTypes, // List of button types
     allowedCharacters: allowedCharacters, // Allowed set of characters
     modsAndLayers: modsAndLayers,
     tapKeys : tapKeys,
     layers: layers,
+    modifiers: modifiers,
     isLayer: false,
     isNormal: true,
     contextMenuVisible: false, // Show we be showing the context menu?
     tapKeyVisible: false,
+    isOneShot: false,
     contextMenuPosition: { // Position of the context menu
       top: 0,
       left: 0
     },
     fnActionCount: 0,
     fnActionLimit: 32,
-    arrow: false,
+    arrow: setInitialArrow(),
     layerLimit: 8, // Maximum number of layers
     keymapRaw: ''
+  },
+  created: function () {
+    this.saveLayout();
   },
   methods: {
     /**
@@ -86,20 +125,30 @@ var v = new Vue({
           this.tapKeyVisible = false;
           this.isLayer = true;
           this.isNormal = false;
+          this.isOneShot = false;
         } else if (keyboard.type == 'momentary') {
           classes.push('keyboard--key--container__momentary');
           this.tapKeyVisible = false;
           this.isLayer = true;
           this.isNormal = false;
+          this.isOneShot = false;
         } else if (keyboard.type == 'tapkey') {
           classes.push('keyboard--key--container__tapkey');
           this.tapKeyVisible = true;
           this.isLayer = false;
           this.isNormal = false;
+          this.isOneShot = false;
+        } else if (keyboard.type == 'oneshot') {
+          classes.push('keyboard--key--container__oneshot');
+          this.tapKeyVisible = false;
+          this.isLayer = false;
+          this.isNormal = false;
+          this.isOneShot = true;
         } else {
           this.tapKeyVisible = false;
           this.isLayer = false;
           this.isNormal = true;
+          this.isOneShot = false;
         }
       }
 
@@ -122,6 +171,7 @@ var v = new Vue({
     },
 
     buildKeymapJson: function () {
+        var keyboard = {'arrow':this.arrow, 'keymap': []};
         var keymap = [];
         var layer = [];
         var row = [];
@@ -139,12 +189,76 @@ var v = new Vue({
             }
             keymap.push(layer);
         }
-        this.keymapRaw = JSON.stringify(keymap);
+
+        keyboard['keymap'] = keymap
+        return JSON.stringify(keyboard);
+    },
+
+    saveLayout: function() {
+        var sKeymap = this.buildKeymapJson();
+        this.keymapRaw = sKeymap;
+        localStorage.setItem('user-keymap', sKeymap);
+        this.fnActionCount = this.countFnActions();
     },
 
     readKeymapJson: function() {
-        var keymap = document.getElementById("rawmap").value;
-        this.template = JSON.parse(keymap);
+        var keyboard = JSON.parse(document.getElementById("rawmap").value);
+
+        // need to handle legacy maps
+        if (Array.isArray(keyboard)) {
+            this.template = keyboard;
+        } else {
+            if (keyboard['arrow']) {
+                this.layout = layouts[1]['keys'];
+            } else {
+                this.layout = layouts[0]['keys'];
+            }
+            this.template = keyboard['keymap'];
+        }
+        this.saveLayout();
+    },
+
+    resetToDefault: function() {
+        if (this.arrow) {
+            this.template = templates[1]['keys'];
+        } else {
+            this.template = templates[0]['keys'];
+        }
+        this.saveLayout();
+    },
+
+    countFnActions: function() {
+        var fnActions = [];
+        for (layerIndex in this.template) {
+            for (rowIndex in this.template[layerIndex]) {
+                for (keyIndex in this.template[layerIndex][rowIndex]) {
+                    var k = this.template[layerIndex][rowIndex][keyIndex]
+                    if (k.type === 'toggle' || k.type === 'momentary' || k.type === 'oneshot') {
+                        if (fnActions.indexOf(k.type + k.value) < 0) {
+                            fnActions.push(k.type + k.value);
+                        }
+                    } else if (k.type === 'tapkey') {
+                        if (fnActions.indexOf(k.type + k.value + k.mod) < 0) {
+                            fnActions.push(k.type + k.value + k.mod);
+                        }
+                    }
+
+                    if (shifted_characters.indexOf(k.value) > -1) {
+                        if (fnActions.indexOf(k.value) < 0) {
+                            fnActions.push(k.value);
+                        }
+                    }
+
+                    if (k.value === 'LED') {
+                        if (fnActions.indexOf(k.value) < 0) {
+                            fnActions.push(k.value);
+                        }
+                    }
+                }
+            }
+        }
+
+        return fnActions.length;
     },
 
     /**
@@ -168,6 +282,11 @@ var v = new Vue({
           this.isNormal = true;
       } else {
           this.isNormal = false;
+      }
+      if (this.activeKey.type == 'oneshot') {
+          this.isOneShot = true;
+      } else {
+          this.isOneShot = false;
       }
     },
 
@@ -228,6 +347,8 @@ var v = new Vue({
             this.template = templates[1]['keys'];
             this.arrow = true;
         }
+
+        this.saveLayout();
     },
 
     /**

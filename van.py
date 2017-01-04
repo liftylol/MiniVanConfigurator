@@ -126,9 +126,7 @@ def buildKeyMaps(layers, arrow_layout):
 
     return keymaps
 
-def fnActionLayer(layer_count, fn_action_index, l1, lt1, lm1):
-
-    fn_actions = ''
+def fnActionLayer(layer_count, fn_actions_list, l1, lt1, lm1):
 
     for i1, val1 in enumerate(lt1):
         if lt1[i1] == 'momentary' or lt1[i1] == 'toggle':
@@ -136,9 +134,15 @@ def fnActionLayer(layer_count, fn_action_index, l1, lt1, lm1):
             mode = 'MOMENTARY'
             if lt1[i1] == 'toggle':
                 mode = 'TOGGLE'
-            fn_actions += '[{0}] = ACTION_LAYER_{1}({2}),'.format(fn_action_index, mode, layer.split('L')[1])
-            l1[i1] = 'FN{0}'.format(fn_action_index)
-            fn_action_index += 1
+            action = 'ACTION_LAYER_{0}({1}),'.format(mode, layer.split('L')[1])
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
+
         elif lt1[i1] == 'tapkey':
             layer = lm1[i1]
             key = l1[i1]
@@ -148,40 +152,66 @@ def fnActionLayer(layer_count, fn_action_index, l1, lt1, lm1):
                 mode = 'LAYER'
                 prefix = ''
                 layer = layer.split('L')[1]
-            fn_actions += '[{0}] = ACTION_{1}_TAP_KEY({prefix}{2}, KC_{3}),'.format(fn_action_index, mode, translate(layer), translate(key), prefix=prefix)
-            l1[i1] = 'FN{0}'.format(fn_action_index)
-            fn_action_index += 1
+            action = 'ACTION_{0}_TAP_KEY({prefix}{1}, KC_{2}),'.format(mode, translate(layer), translate(key), prefix=prefix)
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
+
+        elif lt1[i1] == 'oneshot':
+            key = l1[i1]
+            action = 'ACTION_MODS_ONESHOT(MOD_{0}),'.format(translate(key))
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
 
         try:
             shift_index = SHIFTED_CHARACTERS.index(l1[i1])
         except ValueError:
             shift_index = -1
         if shift_index > -1:
-            fn_actions += '[{0}] = ACTION_MODS_KEY(MOD_LSFT, KC_{1}),'.format(fn_action_index, UNSHIFTED_CHARACTERS[shift_index])
-            l1[i1] = 'FN{0}'.format(fn_action_index)
-            fn_action_index += 1
+            action = 'ACTION_MODS_KEY(MOD_LSFT, KC_{0}),'.format(UNSHIFTED_CHARACTERS[shift_index])
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
 
         if l1[i1] == 'LED':
-            fn_actions += '[{0}] = ACTION_LAYER_TOGGLE({1}),'.format(fn_action_index, layer_count)
-            l1[i1] = 'FN{0}'.format(fn_action_index)
-            fn_action_index += 1
+            action = 'ACTION_LAYER_TOGGLE({0}),'.format(layer_count)
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
 
-    return fn_action_index, l1, fn_actions
+            l1[i1] = 'FN{0}'.format(action_index)
+
+    return fn_actions_list, l1
 
 def buildFnActions(layers):
 
-    fn_action_index = 0
     fn_actions = ''
-    layer_actions = ''
+    fn_actions_list = []
     updated_layers = []
 
     for layer in layers:
-        fn_action_index, ulay, layer_actions = fnActionLayer(len(layers), fn_action_index, layer['values'], layer['types'], layer['mods'])
-        fn_actions += layer_actions
+        fn_actions_list, ulay = fnActionLayer(len(layers), fn_actions_list, layer['values'], layer['types'], layer['mods'])
         updated_layers.append(ulay)
 
-    fn_actions = fn_actions[:-1]
+    for index, action in enumerate(fn_actions_list):
+        fn_actions += '[{0}] = {1}'.format(index, action)
 
+    fn_actions = fn_actions[:-1]
     return updated_layers, fn_actions
 
 

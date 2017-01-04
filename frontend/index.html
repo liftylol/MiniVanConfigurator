@@ -27,6 +27,7 @@
         <div class="keyboard-container">
           <div class="mw6 tc center mv4">
             <a v-on:click="changeLayout" class="button button__secondary"><i class="fa fa-wrench" aria-hidden="true"></i> <span v-if="arrow">Switch to Standard Layout</span><span v-else>Switch to Arrow Layout</span></a>
+            <h2 v-model="fnActionCount">Remaining FN Actions: {{ fnActionLimit - fnActionCount }}</h2>
           </div>
 
           <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
@@ -55,17 +56,20 @@
                         name="L{{ keyboardIndex + 1 }}"
                         type="text"
                         v-model="keyboard[rowIndex][keyIndex].value"
-                        v-on:focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
+                        @focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
+                        @change="saveLayout"
                       >
                       <input
                         name="LM{{ keyboardIndex + 1 }}"
                         type="hidden"
                         v-model="keyboard[rowIndex][keyIndex].mod"
+                        @change="saveLayout"
                       >
                       <input
                         name="LT{{ keyboardIndex + 1 }}"
                         type="hidden"
                         v-model="keyboard[rowIndex][keyIndex].type"
+                        @change="saveLayout"
                       >
                     </div>
                   </div>
@@ -80,11 +84,16 @@
           <a v-on:click="makeHex" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
         </div>
         <div class="actions mw6 tc center mv4">
-          <a v-on:click="buildKeymapJson" class="button button__secondary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Configuration</a>
+          <a v-on:click="resetToDefault" class="button button__secondary"><i class="fa fa-recycle" aria-hidden="true"></i> Reset to Default</a>
           <a v-on:click="readKeymapJson" class="button button__secondary"><i class="fa fa-upload" aria-hidden="true"></i> Load Configuration</a>
         </div>
         <div class="rawoutput mw8 tc center mv4">
           <textarea id="rawmap" v-model="keymapRaw">{{ keymapRaw }}</textarea>
+        </div>
+        <div class="release-notes mw8 tc center mv4">
+          <h2>Release Notes</h2>
+          <p>January 1 2017 - Optimized fn actions so that duplicates don't use up extra slots. Added a visual readout of how many fn actions remain. If this number goes negative the firmware will not build.</p>
+          <p>December 31 2016 - Updated configurator to automatically save the layout to Local Storage and automatically load the saved layout when returning. Added support for one shot modifiers. Fixed saving and loading of arrow layouts. Added support for loading legacy layouts.</p>
         </div>
       </div>
 
@@ -197,7 +206,7 @@
       <div class="context-menu--select" v-if="isNormal">
         <label class="context-menu--select--label">
           Character:
-          <select class="context-menu--select--select" v-model="activeKey.value">
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
             <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
           </select>
         </label>
@@ -206,7 +215,7 @@
       <div class="context-menu--select" v-if="tapKeyVisible">
         <label class="context-menu--select--label">
           Character:
-          <select class="context-menu--select--select" v-model="activeKey.value">
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
             <option v-for="tapKey in tapKeys" v-bind:value="tapKey">{{ tapKey }}</option>
           </select>
         </label>
@@ -215,7 +224,7 @@
       <div class="context-menu--select" v-if="isLayer">
         <label class="context-menu--select--label">
           Layer:
-          <select class="context-menu--select--select" v-model="activeKey.value">
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
             <option v-for="layer in layers" v-bind:value="layer">{{ layer }}</option>
           </select>
         </label>
@@ -224,8 +233,17 @@
       <div class="context-menu--select" v-if="tapKeyVisible">
         <label class="context-menu--select--label">
           Mod/Layer:
-          <select class="context-menu--select--select" v-model="activeKey.mod">
+          <select class="context-menu--select--select" v-model="activeKey.mod" @change="saveLayout">
             <option v-for="ml in modsAndLayers" v-bind:value="ml">{{ ml }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="isOneShot">
+        <label class="context-menu--select--label">
+          Mod/Layer:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="mod in modifiers" v-bind:value="mod">{{ mod }}</option>
           </select>
         </label>
       </div>
@@ -233,7 +251,7 @@
       <div class="context-menu--select">
         <label class="context-menu--select--label">
           Type:
-          <select class="context-menu--select--select" v-model="activeKey.type">
+          <select class="context-menu--select--select" v-model="activeKey.type" @change="saveLayout">
             <option v-for="buttonType in buttonTypes" v-bind:value="buttonType.id">{{ buttonType.name }}</option>
           </select>
         </label>
