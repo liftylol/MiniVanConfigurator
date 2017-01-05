@@ -80,6 +80,8 @@ html {
 .keyboard--key--container {
   display: inline-block;
   position: relative;
+  height: 50px;
+  z-index: 1;
 }
 
 .keyboard--key--container__toggle:after,
@@ -116,6 +118,22 @@ html {
   border-bottom-color: #B29CE3;
 }
 
+.keyboard--key--container__1375 {
+  width: 2.94%;
+}
+
+.keyboard--key--container__1500 {
+  width: 3.92%;
+}
+
+.keyboard--key--container__1750 {
+  width: 5.88%;
+}
+
+.keyboard--key--container__1875 {
+  width: 6.86%;
+}
+
 .keyboard--key--container__100 {
   width: 7.84%;
 }
@@ -136,6 +154,14 @@ html {
   width: 15.68%;
 }
 
+.keyboard--key--container__201 {
+    width: 7.84%;
+    height: 100px;
+    top: 25px;
+    margin-top: -25px;
+    margin-bottom: -25px;
+}
+
 .keyboard--key--container__225 {
   width: 17.64%;
 }
@@ -149,7 +175,7 @@ html {
   border: 1px solid #000;
   background-color: #83817f;
   width: 100%;
-  height: 50px;
+  height: inherit;
   font-size: 12px;
   border-radius: 3px;
   box-shadow: inset 0 0 1px 6px rgba(0, 0, 0, 0.2);
@@ -222,4 +248,9 @@ html {
 #rawmap {
     width: 100%;
     height: 200px;
+}
+
+.spacer {
+  margin-top: -25px;
+  z-index: -1;
 }

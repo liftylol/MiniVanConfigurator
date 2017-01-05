@@ -26,15 +26,22 @@
       <div class="site-container--left">
         <div class="keyboard-container">
           <div class="mw6 tc center mv4">
-            <a v-on:click="changeLayout" class="button button__secondary"><i class="fa fa-wrench" aria-hidden="true"></i> <span v-if="arrow">Switch to Standard Layout</span><span v-else>Switch to Arrow Layout</span></a>
+              <div class="context-menu--select">
+                <label class="context-menu--select--label">
+                  Layout:
+                  <select class="context-menu--select--select" v-model="activeLayout" @change="changeLayout">
+                    <option v-for="(layoutIndex, lay) in supportedLayouts" v-bind:value="layoutIndex">{{ lay.name }}</option>
+                  </select>
+                </label>
+              </div>
             <h2 v-model="fnActionCount">Remaining FN Actions: {{ fnActionLimit - fnActionCount }}</h2>
           </div>
 
           <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
               <input
-                name="arrow"
+                name="activeLayout"
                 type="hidden"
-                v-model="arrow"
+                v-model="activeLayout"
               >
             <div v-for="(keyboardIndex, keyboard) in template" class="keyboard-container">
               <div class="keyboard--layer">
@@ -49,9 +56,10 @@
                     <div
                       v-for="(keyIndex, key) in row"
                       v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex])"
-                      v-on:contextmenu="showContextMenu"
                     >
                       <input
+                        v-if="key.type !== 'spacer'"
+                        v-on:contextmenu="showContextMenu"
                         class="keyboard--key keyboard--key__{{ key.type }}"
                         name="L{{ keyboardIndex + 1 }}"
                         type="text"
@@ -60,12 +68,14 @@
                         @change="saveLayout"
                       >
                       <input
+                        v-if="key.type !== 'spacer'"
                         name="LM{{ keyboardIndex + 1 }}"
                         type="hidden"
                         v-model="keyboard[rowIndex][keyIndex].mod"
                         @change="saveLayout"
                       >
                       <input
+                        v-if="key.type !== 'spacer'"
                         name="LT{{ keyboardIndex + 1 }}"
                         type="hidden"
                         v-model="keyboard[rowIndex][keyIndex].type"
@@ -204,7 +214,7 @@
     </div>
 
     <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
-      <div class="context-menu--select" v-if="isNormal">
+      <div class="context-menu--select" v-if="keyType === 'normal'">
         <label class="context-menu--select--label">
           Character:
           <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
@@ -213,7 +223,7 @@
         </label>
       </div>
 
-      <div class="context-menu--select" v-if="tapKeyVisible">
+      <div class="context-menu--select" v-if="keyType === 'tapkey'">
         <label class="context-menu--select--label">
           Character:
           <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
@@ -222,7 +232,7 @@
         </label>
       </div>
 
-      <div class="context-menu--select" v-if="isLayer">
+      <div class="context-menu--select" v-if="keyType === 'layer'">
         <label class="context-menu--select--label">
           Layer:
           <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
@@ -231,7 +241,7 @@
         </label>
       </div>
 
-      <div class="context-menu--select" v-if="tapKeyVisible">
+      <div class="context-menu--select" v-if="keyType === 'tapkey'">
         <label class="context-menu--select--label">
           Mod/Layer:
           <select class="context-menu--select--select" v-model="activeKey.mod" @change="saveLayout">
@@ -240,7 +250,7 @@
         </label>
       </div>
 
-      <div class="context-menu--select" v-if="isOneShot">
+      <div class="context-menu--select" v-if="keyType === 'oneshot'">
         <label class="context-menu--select--label">
           Mod/Layer:
           <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">

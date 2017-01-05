@@ -5,23 +5,20 @@ import common as kbd
 
 app = Flask(__name__)
 
-LAYOUTS = []
-STANDARD_LAYOUT =  'KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),'
-LAYOUTS.append({'layout':STANDARD_LAYOUT, 'num_keys':44})
+STANDARD_LAYOUT =  'KEYMAP(replace,  replace,   replace,   replace,'
+STANDARD_LAYOUT += 'replace,  replace,   replace,'
+STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,'
+STANDARD_LAYOUT += 'replace,  replace),'
 
-ARROW_LAYOUT =  'KEYMAP_ARROW(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-ARROW_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-ARROW_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-ARROW_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace, replace),'
-LAYOUTS.append({'layout':ARROW_LAYOUT, 'num_keys':45})
+SINGLES_LAYOUT =  'SINGLES_KEYMAP(replace,  replace,   replace,   replace,'
+SINGLES_LAYOUT += 'replace,  replace,   replace,   replace,'
+SINGLES_LAYOUT += 'replace,  replace,   replace,   replace,'
+SINGLES_LAYOUT += 'replace,  replace,   replace,   replace),'
 
 # Returns the file to download at the very end
 @app.route('/downloads/<filename>')
 def download_file(filename):
-    return send_from_directory("/app/tmk_keyboard/keyboard/tv44",
+    return send_from_directory("/app/tmk_keyboard/keyboard/roadkit",
                                filename)
 
 
@@ -37,7 +34,8 @@ def main():
         now = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').split(".")[0]
 
         #Here we take all POST parameters and stuff them into lists. One layer has one list.
-        activeLayout = int(request.form.get('activeLayout', '0'))
+        activeLayout = request.form.get('activeLayout', 0)
+
         layer1 = request.form.getlist('L1')
         layer1types = request.form.getlist('LT1')
         layer1mods = request.form.getlist('LM1')
@@ -82,15 +80,17 @@ def main():
         if layer7:
             layers.append({'values': layer7, 'types': layer7types, 'mods': layer7mods})
 
-        keys_per_layer = LAYOUTS[activeLayout]['num_keys']
-        template = LAYOUTS[activeLayout]['layout']
+        keys_per_layer = 13
+        template = STANDARD_LAYOUT
+        if activeLayout is 1:
+            keys_per_layer = 16
+            template = SINGLES_LAYOUT
 
         for layer in layers:
             if (len(layer['values']) != keys_per_layer):
                 return('error: some values are missing! please enter all information!')
 
         layers, fn_actions = kbd.buildFnActions(layers)
-        #print(fn_actions)
 
         for layer in layers:
             layer = kbd.makeUpper(layer)
@@ -104,15 +104,15 @@ def main():
         configfile = kbd.createTemplate(fn_actions, keymaps)
 
         #As soon as we have the entire content of our config, we can write it into a file (with the timestamp we made right at the start!)
-        filename = "keymap_tv44_"+now+".c"
-        callname = "tv44_"+now
-        with open("/app/tmk_keyboard/keyboard/tv44/"+filename, "w+") as templatefile:
+        filename = "keymap_roadkit_"+now+".c"
+        callname = "roadkit_"+now
+        with open("/app/tmk_keyboard/keyboard/roadkit/"+filename, "w+") as templatefile:
             templatefile.write(configfile)
             templatefile.close()
 
         #everything is set up, now we just have to make our hex file with a system call
         callstring = "make KEYMAP="+callname+" TARGETFILE="+callname+" > /dev/null"
-        subprocess.call(callstring, shell=True, cwd="/app/tmk_keyboard/keyboard/tv44/")
+        subprocess.call(callstring, shell=True, cwd="/app/tmk_keyboard/keyboard/roadkit/")
 
         #everything is done, we have to return the hex file! :)
         return redirect(url_for('download_file', filename=callname+'.hex'))

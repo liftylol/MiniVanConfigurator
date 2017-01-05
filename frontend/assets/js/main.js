@@ -63,22 +63,31 @@ function setInitialKeymap() {
 
 function setInitialLayout() {
     var sKeymap = localStorage.getItem('user-keymap');
+
     if (sKeymap) {
-        if (JSON.parse(sKeymap)['arrow']) {
-            return layouts[1]['keys'];
+        var keymap = JSON.parse(sKeymap);
+        if (keymap.hasOwnProperty('activeLayout')) {
+            return layouts[keymap.activeLayout]['keys'];
+        } else {
+            if (keymap['arrow']) {
+                return layouts[1]['keys'];
+            } else {
+                return layouts[0]['keys'];
+            }
+        }
+    }
+}
+
+function setInitialActiveLayout() {
+    var sKeymap = localStorage.getItem('user-keymap');
+    if (sKeymap) {
+        var keymap = JSON.parse(sKeymap);
+        if (keymap.hasOwnProperty('activeLayout')) {
+            return JSON.parse(sKeymap)['activeLayout'];
         }
     }
 
-    return layouts[0]['keys'];
-}
-
-function setInitialArrow() {
-    var sKeymap = localStorage.getItem('user-keymap');
-    if (sKeymap) {
-        return JSON.parse(sKeymap)['arrow'];
-    }
-
-    return false;
+    return 0;
 }
 
 
@@ -94,18 +103,16 @@ var v = new Vue({
     tapKeys : tapKeys,
     layers: layers,
     modifiers: modifiers,
-    isLayer: false,
-    isNormal: true,
+    keyType: 'normal',
     contextMenuVisible: false, // Show we be showing the context menu?
-    tapKeyVisible: false,
-    isOneShot: false,
     contextMenuPosition: { // Position of the context menu
       top: 0,
       left: 0
     },
     fnActionCount: 0,
     fnActionLimit: 32,
-    arrow: setInitialArrow(),
+    supportedLayouts: layouts,
+    activeLayout: setInitialActiveLayout(),
     layerLimit: 8, // Maximum number of layers
     keymapRaw: ''
   },
@@ -119,36 +126,25 @@ var v = new Vue({
     keyContainerClasses(key, keyboard) {
       var classes = ['keyboard--key--container', 'keyboard--key--container__' + key.size];
 
+      if (key.type == 'spacer') {
+          classes.push('spacer');
+      }
+
       if (typeof keyboard !== 'undefined') {
         if (keyboard.type == 'toggle') {
           classes.push('keyboard--key--container__toggle');
-          this.tapKeyVisible = false;
-          this.isLayer = true;
-          this.isNormal = false;
-          this.isOneShot = false;
+          this.keyType = 'layer';
         } else if (keyboard.type == 'momentary') {
           classes.push('keyboard--key--container__momentary');
-          this.tapKeyVisible = false;
-          this.isLayer = true;
-          this.isNormal = false;
-          this.isOneShot = false;
+          this.keyType = 'layer';
         } else if (keyboard.type == 'tapkey') {
           classes.push('keyboard--key--container__tapkey');
-          this.tapKeyVisible = true;
-          this.isLayer = false;
-          this.isNormal = false;
-          this.isOneShot = false;
+          this.keyType = 'tapkey';
         } else if (keyboard.type == 'oneshot') {
           classes.push('keyboard--key--container__oneshot');
-          this.tapKeyVisible = false;
-          this.isLayer = false;
-          this.isNormal = false;
-          this.isOneShot = true;
+          this.keyType = 'oneshot';
         } else {
-          this.tapKeyVisible = false;
-          this.isLayer = false;
-          this.isNormal = true;
-          this.isOneShot = false;
+          this.keyType = 'normal';
         }
       }
 
@@ -171,7 +167,7 @@ var v = new Vue({
     },
 
     buildKeymapJson: function () {
-        var keyboard = {'arrow':this.arrow, 'keymap': []};
+        var keyboard = {'activeLayout':this.activeLayout, 'keymap': []};
         var keymap = [];
         var layer = [];
         var row = [];
@@ -208,10 +204,17 @@ var v = new Vue({
         if (Array.isArray(keyboard)) {
             this.template = keyboard;
         } else {
-            if (keyboard['arrow']) {
-                this.layout = layouts[1]['keys'];
+            if (keyboard.hasOwnProperty('activeLayout')) {
+                this.layout = layouts[keyboard['activeLayout']];
+                this.activeLayout = keyboard['activeLayout'];
             } else {
-                this.layout = layouts[0]['keys'];
+                if (keyboard['arrow']) {
+                    this.layout = layouts[1]['keys'];
+                    this.activeLayout = 1;
+                } else {
+                    this.layout = layouts[0]['keys'];
+                    this.activeLayout = 0;
+                }
             }
             this.template = keyboard['keymap'];
         }
@@ -219,11 +222,7 @@ var v = new Vue({
     },
 
     resetToDefault: function() {
-        if (this.arrow) {
-            this.template = templates[1]['keys'];
-        } else {
-            this.template = templates[0]['keys'];
-        }
+        this.template = templates[this.activeLayout]['keys'];
         this.saveLayout();
     },
 
@@ -269,24 +268,13 @@ var v = new Vue({
 
       this.contextMenuVisible = true;
       if (this.activeKey.type == 'tapkey') {
-          this.tapKeyVisible = true;
+          this.keyType = 'tapkey';
+      } else if (this.activeKey.type == 'toggle' || this.activeKey.type == 'momentary') {
+          this.keyType = 'layer';
+      } else if (this.activeKey.type == 'oneshot') {
+          this.keyType = 'oneshot';
       } else {
-          this.tapKeyVisible = false;
-      }
-      if (this.activeKey.type == 'toggle' || this.activeKey.type == 'momentary') {
-          this.isLayer = true;
-      } else {
-          this.isLayer = false;
-      }
-      if (this.activeKey.type == null) {
-          this.isNormal = true;
-      } else {
-          this.isNormal = false;
-      }
-      if (this.activeKey.type == 'oneshot') {
-          this.isOneShot = true;
-      } else {
-          this.isOneShot = false;
+          this.keyType = 'normal';
       }
     },
 
@@ -338,16 +326,8 @@ var v = new Vue({
     changeLayout: function(event) {
         event.preventDefault();
 
-        if (this.arrow) {
-            this.layout = layouts[0]['keys'];
-            this.template = templates[0]['keys'];
-            this.arrow = false;
-        } else {
-            this.layout = layouts[1]['keys'];
-            this.template = templates[1]['keys'];
-            this.arrow = true;
-        }
-
+        this.layout = layouts[this.activeLayout]['keys'];
+        this.template = templates[this.activeLayout]['keys'];
         this.saveLayout();
     },
 
