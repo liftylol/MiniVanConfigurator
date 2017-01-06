@@ -1,4 +1,4 @@
-templates = [
+roadkit_templates = [
   {
     name: 'standard',
     layout: 'standard',
@@ -82,7 +82,7 @@ templates = [
           { value: 'KP0', type: null, mod: null },
           { value: 'KPDOT', type: null, mod: null },
           { value: 'L1', type: 'toggle', mod: null },
-          { value: 'BSPC', type: null, mod: null }
+          { value: 'BSPACE', type: null, mod: null }
         ]
       ],
       [

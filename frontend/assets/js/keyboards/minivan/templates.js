@@ -1,4 +1,4 @@
-templates = [
+minivan_templates = [
   {
     name: 'standard',
     layout: 'standard',

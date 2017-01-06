@@ -1,3 +1,10 @@
+keyboards = [];
+keyboards.push({'name':'minivan_rev1', 'layouts':minivan_layouts, 'templates':minivan_templates});
+keyboards.push({'name':'roadkit', 'layouts':roadkit_layouts, 'templates':roadkit_templates});
+keyboards.push({'name':'transitvan', 'layouts':transitvan_layouts, 'templates':transitvan_templates});
+keyboards.push({'name':'cargovan', 'layouts':cargovan_layouts, 'templates':cargovan_templates});
+keyboards.push({'name':'provan', 'layouts':provan_layouts, 'templates':provan_templates});
+
 buttonTypes = [
   {
     name: 'Normal',
@@ -52,34 +59,56 @@ tapKeys = tapKeys.concat(eff_keys);
 tapKeys = tapKeys.concat(media);
 
 
+function setInitialKeyboard() {
+    var active_keyboard = localStorage.getItem('current-keyboard');
+    if (active_keyboard) {
+        for (var k in keyboards) {
+            if (keyboards[k].name == active_keyboard) {
+                return k;
+            }
+        }
+    }
+
+    return 0;
+}
+
 function setInitialKeymap() {
-    var sKeymap = localStorage.getItem('user-keymap');
+    var initial_keyboard = setInitialKeyboard();
+    var k = keyboards[initial_keyboard];
+    var keyboard_storage_name = 'user-keymap-' + k.name;
+    var sKeymap = localStorage.getItem(keyboard_storage_name);
     if (sKeymap) {
         return JSON.parse(sKeymap)['keymap'];
     }
 
-    return templates[0]['keys'];
+    return k.templates[0]['keys'];
 }
 
 function setInitialLayout() {
-    var sKeymap = localStorage.getItem('user-keymap');
+    var initial_keyboard = setInitialKeyboard();
+    var k = keyboards[initial_keyboard];
+    var keyboard_storage_name = 'user-keymap-' + k.name;
+    var sKeymap = localStorage.getItem(keyboard_storage_name);
 
     if (sKeymap) {
         var keymap = JSON.parse(sKeymap);
         if (keymap.hasOwnProperty('activeLayout')) {
-            return layouts[keymap.activeLayout]['keys'];
+            return k.layouts[keymap.activeLayout]['keys'];
         } else {
             if (keymap['arrow']) {
-                return layouts[1]['keys'];
+                return k.layouts[1]['keys'];
             } else {
-                return layouts[0]['keys'];
+                return k.layouts[0]['keys'];
             }
         }
     }
 }
 
 function setInitialActiveLayout() {
-    var sKeymap = localStorage.getItem('user-keymap');
+    var initial_keyboard = setInitialKeyboard();
+    var k = keyboards[initial_keyboard];
+    var keyboard_storage_name = 'user-keymap-' + k.name;
+    var sKeymap = localStorage.getItem(keyboard_storage_name);
     if (sKeymap) {
         var keymap = JSON.parse(sKeymap);
         if (keymap.hasOwnProperty('activeLayout')) {
@@ -111,10 +140,12 @@ var v = new Vue({
     },
     fnActionCount: 0,
     fnActionLimit: 32,
-    supportedLayouts: layouts,
+    supportedLayouts: keyboards[0].layouts,
     activeLayout: setInitialActiveLayout(),
     layerLimit: 8, // Maximum number of layers
-    keymapRaw: ''
+    keymapRaw: '',
+    keyboards: keyboards,
+    activeKeyboard: setInitialKeyboard()
   },
   created: function () {
     this.saveLayout();
@@ -167,7 +198,7 @@ var v = new Vue({
     },
 
     buildKeymapJson: function () {
-        var keyboard = {'activeLayout':this.activeLayout, 'keymap': []};
+        var keyboard = {'keyboard':this.keyboards[this.activeKeyboard]['name'], 'activeLayout':this.activeLayout, 'keymap': []};
         var keymap = [];
         var layer = [];
         var row = [];
@@ -193,7 +224,10 @@ var v = new Vue({
     saveLayout: function() {
         var sKeymap = this.buildKeymapJson();
         this.keymapRaw = sKeymap;
-        localStorage.setItem('user-keymap', sKeymap);
+        var k = this.keyboards[this.activeKeyboard];
+        var keyboard_storage_name = 'user-keymap-' + k.name;
+        localStorage.setItem(keyboard_storage_name, sKeymap);
+        localStorage.setItem('current-keyboard', k.name);
         this.fnActionCount = this.countFnActions();
     },
 
@@ -204,15 +238,25 @@ var v = new Vue({
         if (Array.isArray(keyboard)) {
             this.template = keyboard;
         } else {
+            if (keyboard.hasOwnProperty('keyboard')) {
+                for (var k in this.keyboards) {
+                    if (this.keyboards[k].name == keyboard['keyboard']) {
+                        this.activeKeyboard = k;
+                        break;
+                    }
+                }
+            } else {
+                this.activeKeyboard = 0;
+            }
             if (keyboard.hasOwnProperty('activeLayout')) {
-                this.layout = layouts[keyboard['activeLayout']];
+                this.layout = this.keyboards[this.activeKeyboard].layouts[keyboard['activeLayout']];
                 this.activeLayout = keyboard['activeLayout'];
             } else {
                 if (keyboard['arrow']) {
-                    this.layout = layouts[1]['keys'];
+                    this.layout = this.keyboards[this.activeKeyboard].layouts[1]['keys'];
                     this.activeLayout = 1;
                 } else {
-                    this.layout = layouts[0]['keys'];
+                    this.layout = this.keyboards[this.activeKeyboard].layouts[0]['keys'];
                     this.activeLayout = 0;
                 }
             }
@@ -222,7 +266,7 @@ var v = new Vue({
     },
 
     resetToDefault: function() {
-        this.template = templates[this.activeLayout]['keys'];
+        this.template = this.keyboards[this.activeKeyboard].templates[this.activeLayout]['keys'];
         this.saveLayout();
     },
 
@@ -326,8 +370,32 @@ var v = new Vue({
     changeLayout: function(event) {
         event.preventDefault();
 
-        this.layout = layouts[this.activeLayout]['keys'];
-        this.template = templates[this.activeLayout]['keys'];
+        this.layout = this.keyboards[this.activeKeyboard].layouts[this.activeLayout]['keys'];
+        this.template = this.keyboards[this.activeKeyboard].templates[this.activeLayout]['keys'];
+        this.saveLayout();
+    },
+
+    /**
+     * changes the keyboard
+     */
+    changeKeyboard: function(event) {
+        event.preventDefault();
+
+        // load saved config other set Default
+        var k = this.keyboards[this.activeKeyboard];
+        var keyboard_storage_name = 'user-keymap-' + k.name;
+        var sKeymap = localStorage.getItem(keyboard_storage_name);
+        if (sKeymap) {
+            var keymap = JSON.parse(sKeymap);
+            this.template = keymap['keymap'];
+            this.layout = k.layouts[keymap.activeLayout]['keys'];
+            this.activeLayout = keymap['activeLayout'];
+        } else {
+            this.template = k.templates[0]['keys'];
+            this.layout = k.layouts[0]['keys'];
+            this.activeLayout = 0;
+        }
+        this.supportedLayouts = k.layouts;
         this.saveLayout();
     },
 

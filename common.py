@@ -70,7 +70,7 @@ def translateList(list):
 
 # Takes all list and returns the TMK config file we need to compile the hex file
 def createTemplate(function_actions, keymaps):
-    with open("/app/tmk-modifications/keymap_tv44_template.c", "r") as templatefile:
+    with open("/app/tmk-modifications/keymap_template.c", "r") as templatefile:
         template = templatefile.read()
 
     template = template.replace("layers", keymaps, 1)
@@ -84,8 +84,7 @@ def buildKeyMaps(layers, template):
 
     for layer in layers:
         layer_map = template
-        for i1, val1 in enumerate(layer):
-            layer_map = layer_map.replace("replace", layer[i1], 1)
+        layer_map = layer_map.format(*layer)
 
         keymaps += layer_map
 
@@ -178,3 +177,11 @@ def buildFnActions(layers):
 
     fn_actions = fn_actions[:-1]
     return updated_layers, fn_actions
+
+class Keyboard(object):
+
+    def __init__(self, **kwargs):
+        self.name = kwargs.get('name')
+        self.description = kwargs.get('description', '')
+        self.layouts = kwargs.get('layouts')
+        self.firmware_folder = kwargs.get('firmware_folder')

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MiniVan Configurator</title>
+    <title>TMK Configurator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
@@ -19,13 +19,21 @@
   <body class="" v-on:click="hideContextMenu">
     <div class="bg-dark-gray white pv2 tc f3">
       <h1>
-        MiniVan Configurator
+        TMK Configurator
       </h1>
     </div>
     <div class="site-container">
       <div class="site-container--left">
         <div class="keyboard-container">
           <div class="mw6 tc center mv4">
+              <div class="context-menu--select">
+                <label class="context-menu--select--label">
+                  Keyboard:
+                  <select class="context-menu--select--select" v-model="activeKeyboard" @change="changeKeyboard">
+                    <option v-for="(keyboardIndex, k) in keyboards" v-bind:value="keyboardIndex">{{ k.name }}</option>
+                  </select>
+                </label>
+              </div>
               <div class="context-menu--select">
                 <label class="context-menu--select--label">
                   Layout:
@@ -42,6 +50,11 @@
                 name="activeLayout"
                 type="hidden"
                 v-model="activeLayout"
+              >
+              <input
+                name="keyboard"
+                type="hidden"
+                v-bind:value="keyboards[activeKeyboard]['name']"
               >
             <div v-for="(keyboardIndex, keyboard) in template" class="keyboard-container">
               <div class="keyboard--layer">
@@ -102,6 +115,7 @@
         </div>
         <div class="release-notes mw8 tc center mv4">
           <h2>Release Notes</h2>
+          <p>January 5 2017 - Refactored core functionality and extracted common code to make adding new keyboards much easier. Added all van keyboards. CargoVan backend is not setup yet.</p>
           <p>January 3 2017 - Updated to use newest TMK. Now using built in LED funcitons instead of custom layer code.
           <p>January 1 2017 - Optimized fn actions so that duplicates don't use up extra slots. Added a visual readout of how many fn actions remain. If this number goes negative the firmware will not build.</p>
           <p>December 31 2016 - Updated configurator to automatically save the layout to Local Storage and automatically load the saved layout when returning. Added support for one shot modifiers. Fixed saving and loading of arrow layouts. Added support for loading legacy layouts.</p>
@@ -270,8 +284,16 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
-    <script src="assets/js/layouts.js"></script>
-    <script src="assets/js/templates.js"></script>
+    <script src="assets/js/keyboards/minivan/layouts.js"></script>
+    <script src="assets/js/keyboards/minivan/templates.js"></script>
+    <script src="assets/js/keyboards/roadkit/layouts.js"></script>
+    <script src="assets/js/keyboards/roadkit/templates.js"></script>
+    <script src="assets/js/keyboards/transitvan/layouts.js"></script>
+    <script src="assets/js/keyboards/transitvan/templates.js"></script>
+    <script src="assets/js/keyboards/cargovan/layouts.js"></script>
+    <script src="assets/js/keyboards/cargovan/templates.js"></script>
+    <script src="assets/js/keyboards/provan/layouts.js"></script>
+    <script src="assets/js/keyboards/provan/templates.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>

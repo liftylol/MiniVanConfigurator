@@ -1,4 +1,4 @@
-layouts = [
+cargovan_layouts = [
   {
     name: 'standard',
     keys: [

@@ -1,4 +1,4 @@
-templates = [
+cargovan_templates = [
   {
     name: 'standard',
     layout: 'standard',

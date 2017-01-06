@@ -1,4 +1,4 @@
-layouts = [
+roadkit_layouts = [
   {
     name: 'standard',
     keys: [

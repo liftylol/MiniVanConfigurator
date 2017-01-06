@@ -1,1 +1,0 @@
-from van import app as application

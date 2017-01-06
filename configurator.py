@@ -3,25 +3,23 @@ import os, subprocess, datetime, fileinput
 from flask import Flask, flash, request, redirect, url_for, send_from_directory
 import common as kbd
 
+KEYBOARDS = []
+# import keyboard configurations and add them to app keyboard list
+from keyboards.minivan import keyboard as minivan_rev1
+KEYBOARDS.append(minivan_rev1)
+from keyboards.roadkit import keyboard as roadkit
+KEYBOARDS.append(roadkit)
+from keyboards.transitvan import keyboard as transitvan
+KEYBOARDS.append(transitvan)
+from keyboards.provan import keyboard as provan
+KEYBOARDS.append(provan)
+
 app = Flask(__name__)
 
-LAYOUTS = []
-STANDARD_LAYOUT =  'KEYMAP(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-STANDARD_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace),'
-LAYOUTS.append({'layout':STANDARD_LAYOUT, 'num_keys':44})
-
-ARROW_LAYOUT =  'KEYMAP_ARROW(replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-ARROW_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-ARROW_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,   replace,'
-ARROW_LAYOUT += 'replace,  replace,   replace,   replace,   replace,   replace,   replace,   replace, replace),'
-LAYOUTS.append({'layout':ARROW_LAYOUT, 'num_keys':45})
-
 # Returns the file to download at the very end
-@app.route('/downloads/<filename>')
-def download_file(filename):
-    return send_from_directory("/app/tmk_keyboard/keyboard/tv44",
+@app.route('/downloads/<firmware>/<filename>')
+def download_file(filename, firmware):
+    return send_from_directory("/app/tmk_keyboard/keyboard/{0}".format(firmware),
                                filename)
 
 
@@ -37,6 +35,16 @@ def main():
         now = str(datetime.datetime.now()).replace(' ', '-').replace(':', '-').split(".")[0]
 
         #Here we take all POST parameters and stuff them into lists. One layer has one list.
+        keyboard_name = request.form.get('keyboard', '')
+        keyboard = None
+        for k in KEYBOARDS:
+            if k.name == keyboard_name:
+                keyboard = k
+                break
+
+        if keyboard is None:
+            return('error: no keyboard specified')
+
         activeLayout = int(request.form.get('activeLayout', '0'))
         layer1 = request.form.getlist('L1')
         layer1types = request.form.getlist('LT1')
@@ -82,15 +90,14 @@ def main():
         if layer7:
             layers.append({'values': layer7, 'types': layer7types, 'mods': layer7mods})
 
-        keys_per_layer = LAYOUTS[activeLayout]['num_keys']
-        template = LAYOUTS[activeLayout]['layout']
+        keys_per_layer = keyboard.layouts[activeLayout]['num_keys']
+        template = keyboard.layouts[activeLayout]['layout']
 
         for layer in layers:
             if (len(layer['values']) != keys_per_layer):
                 return('error: some values are missing! please enter all information!')
 
         layers, fn_actions = kbd.buildFnActions(layers)
-        #print(fn_actions)
 
         for layer in layers:
             layer = kbd.makeUpper(layer)
@@ -104,18 +111,18 @@ def main():
         configfile = kbd.createTemplate(fn_actions, keymaps)
 
         #As soon as we have the entire content of our config, we can write it into a file (with the timestamp we made right at the start!)
-        filename = "keymap_tv44_"+now+".c"
-        callname = "tv44_"+now
-        with open("/app/tmk_keyboard/keyboard/tv44/"+filename, "w+") as templatefile:
+        filename = "keymap_{0}_{1}.c".format(keyboard.firmware_folder, now)
+        callname = "{0}_{1}".format(keyboard.firmware_folder, now)
+        with open("/app/tmk_keyboard/keyboard/{0}/{1}".format(keyboard.firmware_folder, filename), "w+") as templatefile:
             templatefile.write(configfile)
             templatefile.close()
 
         #everything is set up, now we just have to make our hex file with a system call
         callstring = "make KEYMAP="+callname+" TARGETFILE="+callname+" > /dev/null"
-        subprocess.call(callstring, shell=True, cwd="/app/tmk_keyboard/keyboard/tv44/")
+        subprocess.call(callstring, shell=True, cwd="/app/tmk_keyboard/keyboard/{0}/".format(keyboard.firmware_folder))
 
         #everything is done, we have to return the hex file! :)
-        return redirect(url_for('download_file', filename=callname+'.hex'))
+        return redirect(url_for('download_file', filename=callname+'.hex', firmware=keyboard.firmware_folder))
 
     #this is what happens on a GET request, we just send the index.htm file.
     else:
