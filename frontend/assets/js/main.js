@@ -4,6 +4,7 @@ keyboards.push({'name':'roadkit', 'layouts':roadkit_layouts, 'templates':roadkit
 keyboards.push({'name':'transitvan', 'layouts':transitvan_layouts, 'templates':transitvan_templates});
 keyboards.push({'name':'cargovan', 'layouts':cargovan_layouts, 'templates':cargovan_templates});
 keyboards.push({'name':'provan', 'layouts':provan_layouts, 'templates':provan_templates});
+keyboards.push({'name':'minorca', 'layouts':minorca_layouts, 'templates':minorca_templates});
 
 buttonTypes = [
   {
@@ -25,6 +26,14 @@ buttonTypes = [
   {
     name: 'One Shot Modifier',
     id: 'oneshot'
+  },
+  {
+    name: 'Set Layer Clear',
+    id: 'setlayerclear'
+  },
+  {
+    name: 'Set Default Layer',
+    id: 'setdefault'
   }
 ];
 
@@ -39,7 +48,8 @@ modifiers = ['LCTRL', 'RCTRL', 'LSHIFT', 'RSHIFT', 'LALT', 'RALT', 'LGUI', 'RGUI
 media = ['MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD'];
 keyboard = ['TRNS', 'LED'];
 duplicate_codes = ['PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH', 'QUOTE', 'GRV', 'COMMA', 'DOT', 'SLASH', 'DELETE', 'NLCK', 'RALT', 'ESC'];
-layers = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7'];
+layers = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15'];
+base_layer = ['L0'];
 
 allowedCharacters = alphas.concat(numbers);
 allowedCharacters = allowedCharacters.concat(standard_functions);
@@ -57,6 +67,7 @@ tapKeys = tapKeys.concat(special_characters);
 tapKeys = tapKeys.concat(numpad);
 tapKeys = tapKeys.concat(eff_keys);
 tapKeys = tapKeys.concat(media);
+allLayers = base_layer.concat(layers);
 
 
 function setInitialKeyboard() {
@@ -131,6 +142,7 @@ var v = new Vue({
     modsAndLayers: modsAndLayers,
     tapKeys : tapKeys,
     layers: layers,
+    allLayers: allLayers,
     modifiers: modifiers,
     keyType: 'normal',
     contextMenuVisible: false, // Show we be showing the context menu?
@@ -142,7 +154,7 @@ var v = new Vue({
     fnActionLimit: 32,
     supportedLayouts: keyboards[setInitialKeyboard()].layouts,
     activeLayout: setInitialActiveLayout(),
-    layerLimit: 8, // Maximum number of layers
+    layerLimit: 16, // Maximum number of layers
     keymapRaw: '',
     keyboards: keyboards,
     activeKeyboard: setInitialKeyboard()
@@ -174,6 +186,12 @@ var v = new Vue({
         } else if (keyboard.type == 'oneshot') {
           classes.push('keyboard--key--container__oneshot');
           this.keyType = 'oneshot';
+        } else if (keyboard.type == 'setdefault') {
+          classes.push('keyboard--key--container__setdefault');
+          this.keyType = 'setlayer';
+        } else if (keyboard.type == 'setlayerclear') {
+          classes.push('keyboard--key--container__setlayerclear');
+          this.keyType = 'setlayer';
         } else {
           this.keyType = 'normal';
         }
@@ -277,7 +295,7 @@ var v = new Vue({
             for (rowIndex in this.template[layerIndex]) {
                 for (keyIndex in this.template[layerIndex][rowIndex]) {
                     var k = this.template[layerIndex][rowIndex][keyIndex]
-                    if (k.type === 'toggle' || k.type === 'momentary' || k.type === 'oneshot') {
+                    if (k.type === 'toggle' || k.type === 'momentary' || k.type === 'oneshot' || k.type === 'setlayerclear' || k.type === 'setdefault') {
                         if (fnActions.indexOf(k.type + k.value) < 0) {
                             fnActions.push(k.type + k.value);
                         }
@@ -318,6 +336,8 @@ var v = new Vue({
           this.keyType = 'layer';
       } else if (this.activeKey.type == 'oneshot') {
           this.keyType = 'oneshot';
+      } else if (this.activeKey.type == 'setdefault' || this.activeKey.type == 'setlayerclear') {
+          this.keyType = 'setlayer';
       } else {
           this.keyType = 'normal';
       }

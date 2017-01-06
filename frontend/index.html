@@ -115,6 +115,7 @@
         </div>
         <div class="release-notes mw8 tc center mv4">
           <h2>Release Notes</h2>
+          <p>January 6 2017 - Added support for ACTION_LAYER_SET_CLEAR and ACTION_DEFAULT_LAYER_SET. Increased the number of layers support to 15. Added Minorca Keyboard.</p>
           <p>January 6 2017 - Fixed a bug with loading layouts where the display would get messed up and the app would need to be refreshed.</p>
           <p>January 5 2017 - Refactored core functionality and extracted common code to make adding new keyboards much easier. Added all van keyboards. CargoVan backend is not setup yet.</p>
           <p>January 3 2017 - Updated to use newest TMK. Now using built in LED functions instead of custom layer code.
@@ -267,9 +268,18 @@
 
       <div class="context-menu--select" v-if="keyType === 'oneshot'">
         <label class="context-menu--select--label">
-          Mod/Layer:
+          Mod:
           <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
             <option v-for="mod in modifiers" v-bind:value="mod">{{ mod }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="keyType === 'setlayer'">
+        <label class="context-menu--select--label">
+          Layer:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="layer in allLayers" v-bind:value="layer">{{ layer }}</option>
           </select>
         </label>
       </div>
@@ -295,6 +305,8 @@
     <script src="assets/js/keyboards/cargovan/templates.js"></script>
     <script src="assets/js/keyboards/provan/layouts.js"></script>
     <script src="assets/js/keyboards/provan/templates.js"></script>
+    <script src="assets/js/keyboards/minorca/layouts.js"></script>
+    <script src="assets/js/keyboards/minorca/templates.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>

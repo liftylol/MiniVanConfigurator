@@ -136,6 +136,28 @@ def fnActionLayer(fn_actions_list, l1, lt1, lm1):
 
             l1[i1] = 'FN{0}'.format(action_index)
 
+        elif lt1[i1] == 'setdefault':
+            key = l1[i1]
+            action = 'ACTION_DEFAULT_LAYER_SET({0}),'.format(key.split('L')[1])
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
+
+        elif lt1[i1] == 'setlayerclear':
+            key = l1[i1]
+            action = 'ACTION_LAYER_SET_CLEAR({0}),'.format(key.split('L')[1])
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
+
         try:
             shift_index = SHIFTED_CHARACTERS.index(l1[i1])
         except ValueError:

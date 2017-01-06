@@ -87,7 +87,9 @@ html {
 .keyboard--key--container__toggle:after,
 .keyboard--key--container__momentary:after,
 .keyboard--key--container__tapkey:after,
-.keyboard--key--container__oneshot:after {
+.keyboard--key--container__oneshot:after,
+.keyboard--key--container__setdefault:after,
+.keyboard--key--container__setlayerclear:after {
   content: '';
   position: absolute;
   display: block;
@@ -116,6 +118,14 @@ html {
 
 .keyboard--key--container__oneshot:after {
   border-bottom-color: #B29CE3;
+}
+
+.keyboard--key--container__setdefault:after {
+  border-bottom-color: #C6C6C6;
+}
+
+.keyboard--key--container__setlayerclear:after {
+  border-bottom-color: #ffffff;
 }
 
 .keyboard--key--container__1375 {

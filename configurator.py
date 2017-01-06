@@ -13,6 +13,8 @@ from keyboards.transitvan import keyboard as transitvan
 KEYBOARDS.append(transitvan)
 from keyboards.provan import keyboard as provan
 KEYBOARDS.append(provan)
+from keyboards.minorca import keyboard as minorca
+KEYBOARDS.append(minorca)
 
 app = Flask(__name__)
 
@@ -67,6 +69,30 @@ def main():
         layer7 = request.form.getlist('L7')
         layer7types = request.form.getlist('LT7')
         layer7mods = request.form.getlist('LM7')
+        layer8 = request.form.getlist('L8')
+        layer8types = request.form.getlist('LT8')
+        layer8mods = request.form.getlist('LM8')
+        layer9 = request.form.getlist('L9')
+        layer9types = request.form.getlist('LT9')
+        layer9mods = request.form.getlist('LM9')
+        layer10 = request.form.getlist('L10')
+        layer10types = request.form.getlist('LT10')
+        layer10mods = request.form.getlist('LM10')
+        layer11 = request.form.getlist('L11')
+        layer11types = request.form.getlist('LT11')
+        layer11mods = request.form.getlist('LM11')
+        layer12 = request.form.getlist('L12')
+        layer12types = request.form.getlist('LT12')
+        layer12mods = request.form.getlist('LM12')
+        layer13 = request.form.getlist('L13')
+        layer13types = request.form.getlist('LT13')
+        layer13mods = request.form.getlist('LM13')
+        layer14 = request.form.getlist('L14')
+        layer14types = request.form.getlist('LT14')
+        layer14mods = request.form.getlist('LM14')
+        layer15 = request.form.getlist('L15')
+        layer15types = request.form.getlist('LT15')
+        layer15mods = request.form.getlist('LM15')
 
         layers = []
         if layer1:
@@ -89,6 +115,30 @@ def main():
 
         if layer7:
             layers.append({'values': layer7, 'types': layer7types, 'mods': layer7mods})
+
+        if layer8:
+            layers.append({'values': layer8, 'types': layer8types, 'mods': layer8mods})
+
+        if layer9:
+            layers.append({'values': layer9, 'types': layer9types, 'mods': layer9mods})
+
+        if layer10:
+            layers.append({'values': layer10, 'types': layer10types, 'mods': layer10mods})
+
+        if layer11:
+            layers.append({'values': layer11, 'types': layer11types, 'mods': layer11mods})
+
+        if layer12:
+            layers.append({'values': layer12, 'types': layer12types, 'mods': layer12mods})
+
+        if layer13:
+            layers.append({'values': layer13, 'types': layer13types, 'mods': layer13mods})
+
+        if layer14:
+            layers.append({'values': layer14, 'types': layer14types, 'mods': layer14mods})
+
+        if layer15:
+            layers.append({'values': layer15, 'types': layer15types, 'mods': layer15mods})
 
         keys_per_layer = keyboard.layouts[activeLayout]['num_keys']
         template = keyboard.layouts[activeLayout]['layout']
