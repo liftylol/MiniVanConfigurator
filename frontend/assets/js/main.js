@@ -140,7 +140,7 @@ var v = new Vue({
     },
     fnActionCount: 0,
     fnActionLimit: 32,
-    supportedLayouts: keyboards[0].layouts,
+    supportedLayouts: keyboards[setInitialKeyboard()].layouts,
     activeLayout: setInitialActiveLayout(),
     layerLimit: 8, // Maximum number of layers
     keymapRaw: '',
@@ -242,6 +242,7 @@ var v = new Vue({
                 for (var k in this.keyboards) {
                     if (this.keyboards[k].name == keyboard['keyboard']) {
                         this.activeKeyboard = k;
+                        this.supportedLayouts = this.keyboards[k].layouts;
                         break;
                     }
                 }
@@ -249,7 +250,7 @@ var v = new Vue({
                 this.activeKeyboard = 0;
             }
             if (keyboard.hasOwnProperty('activeLayout')) {
-                this.layout = this.keyboards[this.activeKeyboard].layouts[keyboard['activeLayout']];
+                this.layout = this.keyboards[this.activeKeyboard].layouts[keyboard['activeLayout']]['keys'];
                 this.activeLayout = keyboard['activeLayout'];
             } else {
                 if (keyboard['arrow']) {
