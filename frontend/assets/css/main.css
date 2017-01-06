@@ -58,7 +58,7 @@ html {
   margin: 0 auto;
   padding: 10px 20px;
   position: relative;
-  width: 800px;
+  width: auto;
 }
 
 .keyboard--layer--remove {
