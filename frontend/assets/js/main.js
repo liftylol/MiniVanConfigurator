@@ -5,6 +5,7 @@ keyboards.push({'name':'transitvan', 'layouts':transitvan_layouts, 'templates':t
 keyboards.push({'name':'cargovan', 'layouts':cargovan_layouts, 'templates':cargovan_templates});
 keyboards.push({'name':'provan', 'layouts':provan_layouts, 'templates':provan_templates});
 keyboards.push({'name':'minorca', 'layouts':minorca_layouts, 'templates':minorca_templates});
+keyboards.push({'name':'ergodox', 'layouts':ergodox_layouts, 'templates':ergodox_templates});
 
 buttonTypes = [
   {

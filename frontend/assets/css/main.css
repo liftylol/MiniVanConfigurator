@@ -128,6 +128,10 @@ html {
   border-bottom-color: #ffffff;
 }
 
+.keyboard--key--container__1250 {
+  width: 12.5px;
+}
+
 .keyboard--key--container__1375 {
   width: 18.75px;
 }
@@ -156,6 +160,22 @@ html {
   width: 75px;
 }
 
+.keyboard--key--container__151 {
+  width: 50px;
+  height: 75px;
+  margin-top: -12.5px;
+  margin-bottom: -12.5px;
+  top: 12.5px
+}
+
+.keyboard--key--container__152 {
+  width: 50px;
+  height: 75px;
+  margin-top: -12.5px;
+  margin-bottom: -12.5px;
+  bottom: 12.5px
+}
+
 .keyboard--key--container__175 {
   width: 87.5px;
 }
@@ -168,6 +188,14 @@ html {
     width: 50px;
     height: 100px;
     top: 25px;
+    margin-top: -25px;
+    margin-bottom: -25px;
+}
+
+.keyboard--key--container__202 {
+    width: 50px;
+    height: 100px;
+    bottom: 25px;
     margin-top: -25px;
     margin-bottom: -25px;
 }

@@ -15,6 +15,8 @@ from keyboards.provan import keyboard as provan
 KEYBOARDS.append(provan)
 from keyboards.minorca import keyboard as minorca
 KEYBOARDS.append(minorca)
+from keyboards.ergodox import keyboard as ergodox
+KEYBOARDS.append(ergodox)
 
 app = Flask(__name__)
 
