@@ -206,7 +206,7 @@ var v = new Vue({
      */
     positionContextMenu: function (event) {
       // Get current key and it's position'
-      var key = event.srcElement;
+      var key = event.srcElement || event.target;
       var position = this.cumulativeOffset(key);
 
       Vue.nextTick(function () {
