@@ -108,7 +108,7 @@ minivan_templates = [
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
           { value: 'TRNS', type: null, mod: null },
-          { value: 'TRNS', type: null, mod: null }
+          { value: 'FLASH', type: null, mod: null }
         ]
       ],
       [

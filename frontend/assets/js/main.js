@@ -47,7 +47,7 @@ eff_keys = ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 
 numpad = ['NUM', 'KPSLASH', 'KPASTERISK', 'KPMINUS', 'KPPLUS', 'KPENTER', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6', 'KP7', 'KP8', 'KP9', 'KPDOT', 'KPEQUAL', 'MENU'];
 modifiers = ['LCTRL', 'RCTRL', 'LSHIFT', 'RSHIFT', 'LALT', 'RALT', 'LGUI', 'RGUI'];
 media = ['MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD', 'MUTE'];
-keyboard = ['TRNS', 'LED'];
+keyboard = ['TRNS', 'LED', 'FLASH'];
 duplicate_codes = ['PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH', 'QUOTE', 'GRV', 'COMMA', 'DOT', 'SLASH', 'DELETE', 'NLCK', 'RALT', 'ESC'];
 layers = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15'];
 base_layer = ['L0'];
@@ -313,6 +313,12 @@ var v = new Vue({
                     }
 
                     if (k.value === 'LED') {
+                        if (fnActions.indexOf(k.value) < 0) {
+                            fnActions.push(k.value);
+                        }
+                    }
+
+                    if (k.value === 'FLASH') {
                         if (fnActions.indexOf(k.value) < 0) {
                             fnActions.push(k.value);
                         }

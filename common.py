@@ -182,6 +182,16 @@ def fnActionLayer(fn_actions_list, l1, lt1, lm1):
 
             l1[i1] = 'FN{0}'.format(action_index)
 
+        if l1[i1] == 'FLASH':
+            action = 'ACTION_FUNCTION(RESET_KEY),'
+            try:
+                action_index = fn_actions_list.index(action)
+            except ValueError:
+                fn_actions_list.append(action)
+                action_index = len(fn_actions_list) - 1
+
+            l1[i1] = 'FN{0}'.format(action_index)
+
     return fn_actions_list, l1
 
 def buildFnActions(layers):
