@@ -315,3 +315,14 @@ html {
   margin-top: -25px;
   z-index: -1;
 }
+
+dl dt {
+  float: left;
+  font-weight: bold;
+}
+
+dl dd {
+  text-align: left;
+  padding-left: 80px;
+  padding-bottom: 10px;
+}

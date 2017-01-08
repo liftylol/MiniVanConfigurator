@@ -241,6 +241,7 @@ var v = new Vue({
     },
 
     saveLayout: function() {
+        this.fixLayers();
         var sKeymap = this.buildKeymapJson();
         this.keymapRaw = sKeymap;
         var k = this.keyboards[this.activeKeyboard];
@@ -248,6 +249,24 @@ var v = new Vue({
         localStorage.setItem(keyboard_storage_name, sKeymap);
         localStorage.setItem('current-keyboard', k.name);
         this.fnActionCount = this.countFnActions();
+    },
+
+    fixLayers: function() {
+        // find L keys, save index from current layer, update key in position on L layer to TRNS
+        for (layerIndex in this.template) {
+            for (rowIndex in this.template[layerIndex]) {
+                for (keyIndex in this.template[layerIndex][rowIndex]) {
+                    var k = this.template[layerIndex][rowIndex][keyIndex]
+                    if (k.type == 'momentary' || k.type == 'toggle') {
+                        this.template[k.value.substring(1)][rowIndex][keyIndex].value = 'TRNS';
+                    } else if (k.type == 'tapkey') {
+                        if (this.layers.indexOf(k.mod) > -1) {
+                            this.template[k.mod.substring(1)][rowIndex][keyIndex].value = 'TRNS';
+                        }
+                    }
+                }
+            }
+        }
     },
 
     readKeymapJson: function() {
