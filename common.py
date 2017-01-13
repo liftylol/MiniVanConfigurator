@@ -98,7 +98,7 @@ def fnActionLayer(fn_actions_list, l1, lt1, lm1):
             mode = 'MOMENTARY'
             if lt1[i1] == 'toggle':
                 mode = 'TOGGLE'
-            action = 'ACTION_LAYER_{0}({1}),'.format(mode, layer.split('L')[1])
+            action = 'ACTION_LAYER_{0}({1}),'.format(mode, layer[1:])
             try:
                 action_index = fn_actions_list.index(action)
             except ValueError:
@@ -112,10 +112,10 @@ def fnActionLayer(fn_actions_list, l1, lt1, lm1):
             key = l1[i1]
             mode = 'MODS'
             prefix = 'MOD_'
-            if len(layer) == 2:
+            if layer[1:].isdigit():
                 mode = 'LAYER'
                 prefix = ''
-                layer = layer.split('L')[1]
+                layer = layer[1:]
             action = 'ACTION_{0}_TAP_KEY({prefix}{1}, KC_{2}),'.format(mode, translate(layer), translate(key), prefix=prefix)
             try:
                 action_index = fn_actions_list.index(action)
