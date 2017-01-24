@@ -11,7 +11,7 @@ ALLOWED_CHARACTERS = {'A', 'B', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
                       'KP_DOT', 'KP_EQUAL', 'LCTL', 'RCTL', 'LSFT', 'RSFT', 'LALT', 'FN11', 'FN12', 'FN13', 'FN14',
                       'FN15', 'FN16', 'FN17', 'FN18', 'FN19', 'FN20', 'FN21', 'FN22', 'FN23', 'FN24', 'FN25', 'FN26',
                       'FN27', 'FN28', 'FN29', 'FN30', 'FN31', 'TRNS', 'MSTP', 'MPLY', 'MPRV', 'MNXT', 'VOLU', 'VOLD', 'MUTE',
-                      'PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH',
+                      'PSCR', 'SLCK', 'MINUS', 'EQUAL', 'LBRACKET', 'RBRACKET', 'BSLASH', 'SCOLON', 'NONUS_HASH', 'NONUS_BSLASH',
                       'QUOTE', 'GRV', 'COMMA', 'DOT', 'SLASH', 'DELETE', 'NLCK', 'RALT', 'LGUI', 'RGUI', 'FN0', 'FN1',
                       'FN2', 'ESC', 'FN3', 'FN4', 'FN5', 'FN6', 'FN7', 'FN8', 'FN9', 'FN10', '\'', 'APP'}
 
