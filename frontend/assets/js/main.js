@@ -236,8 +236,9 @@ var v = new Vue({
             keymap.push(layer);
         }
 
-        keyboard['keymap'] = keymap
-        return JSON.stringify(keyboard);
+        keyboard['keymap'] = keymap;
+        return JSON.stringify(keyboard).replace(/,\[\[/g, ',\n\n[[');
+
     },
 
     saveLayout: function() {
