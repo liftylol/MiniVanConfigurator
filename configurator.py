@@ -7,6 +7,8 @@ KEYBOARDS = []
 # import keyboard configurations and add them to app keyboard list
 from keyboards.minivan import keyboard as minivan_rev1
 KEYBOARDS.append(minivan_rev1)
+from keyboards.minivan_rev3 import keyboard as minivan_rev3
+KEYBOARDS.append(minivan_rev3)
 from keyboards.roadkit import keyboard as roadkit
 KEYBOARDS.append(roadkit)
 from keyboards.transitvan import keyboard as transitvan

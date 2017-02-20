@@ -1,5 +1,6 @@
 keyboards = [];
 keyboards.push({'name':'minivan_rev1', 'layouts':minivan_layouts, 'templates':minivan_templates});
+keyboards.push({'name':'minivan_rev3', 'layouts':minivan_layouts, 'templates':minivan_templates});
 keyboards.push({'name':'roadkit', 'layouts':roadkit_layouts, 'templates':roadkit_templates});
 keyboards.push({'name':'transitvan', 'layouts':transitvan_layouts, 'templates':transitvan_templates});
 keyboards.push({'name':'cargovan', 'layouts':cargovan_layouts, 'templates':cargovan_templates});
