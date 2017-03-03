@@ -1,12 +1,14 @@
 keyboards = [];
 keyboards.push({'name':'minivan_rev1', 'layouts':minivan_layouts, 'templates':minivan_templates});
 keyboards.push({'name':'minivan_rev3', 'layouts':minivan_layouts, 'templates':minivan_templates});
+keyboards.push({'name':'caravan', 'layouts':minivan_layouts, 'templates':minivan_templates});
 keyboards.push({'name':'roadkit', 'layouts':roadkit_layouts, 'templates':roadkit_templates});
 keyboards.push({'name':'transitvan', 'layouts':transitvan_layouts, 'templates':transitvan_templates});
 keyboards.push({'name':'cargovan', 'layouts':cargovan_layouts, 'templates':cargovan_templates});
 keyboards.push({'name':'provan', 'layouts':provan_layouts, 'templates':provan_templates});
 keyboards.push({'name':'minorca', 'layouts':minorca_layouts, 'templates':minorca_templates});
 keyboards.push({'name':'ergodox', 'layouts':ergodox_layouts, 'templates':ergodox_templates});
+keyboards.push({'name':'low_writer_rev1', 'layouts':lowwriter_layouts, 'templates':lowwriter_templates});
 
 buttonTypes = [
   {

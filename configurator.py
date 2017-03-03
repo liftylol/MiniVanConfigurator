@@ -19,6 +19,10 @@ from keyboards.minorca import keyboard as minorca
 KEYBOARDS.append(minorca)
 from keyboards.ergodox import keyboard as ergodox
 KEYBOARDS.append(ergodox)
+from keyboards.caravan import keyboard as caravan
+KEYBOARDS.append(caravan)
+from keyboards.lowwriter import keyboard as lowwriter
+KEYBOARDS.append(lowwriter)
 
 app = Flask(__name__)
 
