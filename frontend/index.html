@@ -1,0 +1,342 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>TMK Configurator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/tachyons.min.css">
+
+    <script src="https://use.fontawesome.com/8d7e1df088.js"></script>
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico"/>
+  </head>
+
+  <body class="" v-on:click="hideContextMenu">
+    <div class="bg-dark-gray white pv2 tc f3">
+      <h1>
+        TMK Configurator
+      </h1>
+    </div>
+    <div class="site-container">
+      <div class="site-container--left">
+        <div class="keyboard-container">
+          <div class="mw6 tc center mv4">
+              <div class="context-menu--select">
+                <label class="context-menu--select--label">
+                  Keyboard:
+                  <select class="context-menu--select--select" v-model="activeKeyboard" @change="changeKeyboard">
+                    <option v-for="(keyboardIndex, k) in keyboards" v-bind:value="keyboardIndex">{{ k.name }}</option>
+                  </select>
+                </label>
+              </div>
+              <div class="context-menu--select">
+                <label class="context-menu--select--label">
+                  Layout:
+                  <select class="context-menu--select--select" v-model="activeLayout" @change="changeLayout">
+                    <option v-for="(layoutIndex, lay) in supportedLayouts" v-bind:value="layoutIndex">{{ lay.name }}</option>
+                  </select>
+                </label>
+              </div>
+            <h2 v-model="fnActionCount">Remaining FN Actions: {{ fnActionLimit - fnActionCount }}</h2>
+          </div>
+
+          <form name="keyboard-form" id="keyboard-form" action="" method="post" enctype="multipart/form-data">
+              <input
+                name="activeLayout"
+                type="hidden"
+                v-model="activeLayout"
+              >
+              <input
+                name="keyboard"
+                type="hidden"
+                v-bind:value="keyboards[activeKeyboard]['name']"
+              >
+            <div v-for="(keyboardIndex, keyboard) in template" class="keyboard-container">
+              <div class="keyboard--layer">
+                <h2 v-if="keyboardIndex == 0">Base Layer</h2>
+                <h2 v-else>
+                  Layer {{ keyboardIndex }}
+                  <a v-on:click="removeLayer($event, keyboard, keyboardIndex)" class="keyboard--layer--remove button button__error bg-light-red gray"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </h2>
+
+                <div class="keyboard">
+                  <div v-for="(rowIndex, row) in layout" class="row">
+                    <div
+                      v-for="(keyIndex, key) in row"
+                      v-bind:class="keyContainerClasses(key, keyboard[rowIndex][keyIndex])"
+                    >
+                      <input
+                        v-if="key.type !== 'spacer'"
+                        v-on:contextmenu="showContextMenu"
+                        class="keyboard--key keyboard--key__{{ key.type }}"
+                        name="L{{ keyboardIndex + 1 }}"
+                        type="text"
+                        v-model="keyboard[rowIndex][keyIndex].value"
+                        @focus="focusKey(keyboard[rowIndex][keyIndex], $event)"
+                        @change="saveLayout"
+                      >
+                      <input
+                        v-if="key.type !== 'spacer'"
+                        name="LM{{ keyboardIndex + 1 }}"
+                        type="hidden"
+                        v-model="keyboard[rowIndex][keyIndex].mod"
+                        @change="saveLayout"
+                      >
+                      <input
+                        v-if="key.type !== 'spacer'"
+                        name="LT{{ keyboardIndex + 1 }}"
+                        type="hidden"
+                        v-model="keyboard[rowIndex][keyIndex].type"
+                        @change="saveLayout"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="actions mw6 tc center mv4">
+          <a v-on:click="addLayer" class="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add layer</a>
+          <a v-on:click="makeHex" class="button button__secondary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Make .hex!</a>
+        </div>
+        <div class="actions mw6 tc center mv4">
+          <a v-on:click="resetToDefault" class="button button__secondary"><i class="fa fa-recycle" aria-hidden="true"></i> Reset to Default</a>
+          <a v-on:click="readKeymapJson" class="button button__secondary"><i class="fa fa-upload" aria-hidden="true"></i> Load Configuration</a>
+        </div>
+        <div class="rawoutput mw8 tc center mv4">
+          <textarea id="rawmap" v-model="keymapRaw">{{ keymapRaw }}</textarea>
+        </div>
+        <div class="release-notes mw8 tc center mv4">
+          <h2>Release Notes</h2>
+          <dl>
+              <dt>MAR 3 2017</dt>
+              <dd>Added CaraVan and LowWriter Support.</dd>
+              <dt>FEB 19 2017</dt>
+              <dd>Added blank lines to raw output to make it more usable. Added MiniVan Rev 3 PCB support.</dd>
+              <dt>JAN 23 2017</dt>
+              <dd>Added NONUS_BSLASH. Updated Roadkit to use correct LED pin.</dd>
+              <dt>JAN 12 2017</dt>
+              <dd>Fixed a bug where tap keys using layers above 9 were not handled correctly causing build failure.</dd>
+              <dt>JAN 7 2017</dt>
+              <dd>Force Layer keys to be set to TRNS on the appropriate layer.</dd>
+              <dt>JAN 7 2017</dt>
+              <dd>Added 'FLASH' key for putting keyboard into bootloader mode without having to press reset button on pcb. Fixed context menu bug in FireFox.</dd>
+              <dt>JAN 7 2017</dt>
+              <dd>Ergodox added, needs testing.</dd>
+              <dt>JAN 6 2017</dt>
+              <dd>Added the 'MUTE' key.</dd>
+              <dt>JAN 6 2017</dt>
+              <dd>Added support for ACTION_LAYER_SET_CLEAR and ACTION_DEFAULT_LAYER_SET. Increased the number of layers support to 15. Added Minorca Keyboard.</dd>
+              <dt>JAN 6 2017</dt>
+              <dd>Fixed a bug with loading layouts where the display would get messed up and the app would need to be refreshed.</dd>
+              <dt>JAN 5 2017</dt>
+              <dd>Refactored core functionality and extracted common code to make adding new keyboards much easier. Added all van keyboards. CargoVan backend is not setup yet.</dd>
+              <dt>JAN 3 2017</dt>
+              <dd>Updated to use newest TMK. Now using built in LED functions instead of custom layer code.</dd>
+              <dt>JAN 1 2017</dt>
+              <dd>Optimized fn actions so that duplicates don't use up extra slots. Added a visual readout of how many fn actions remain. If this number goes negative the firmware will not build.</dd>
+              <dt>DEC 31 2016</dt>
+              <dd>Updated configurator to automatically save the layout to Local Storage and automatically load the saved layout when returning. Added support for one shot modifiers. Fixed saving and loading of arrow layouts. Added support for loading legacy layouts.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="site-container--right bg-dark-gray">
+        <div class="information white mw6 overflow-y-scroll vh-100 fixed top--1 pt6">
+          <h1 class="f2 tc">Table of Contents</h1>
+          <h3 class="tc">(Scroll for more)</h3>
+          <p class="f4">
+          <strong>Standard Keys:</strong><br>
+          A-Z, 0-9<br>
+          ENTER<br>
+          ESCAPE<br>
+          BSPACE<br>
+          TAB<br>
+          SPACE<br>
+          -<br>
+          =<br>
+          [<br>
+          ]<br>
+          \<br>
+          NONUS_HASH<br>
+          NONUS_BSLASH<br>
+          ;<br>
+          '<br>
+          `<br>
+          ,<br>
+          .<br>
+          /<br>
+          <br>
+
+          <strong>Shifted Keys:</strong><br>
+          _<br>
+          +<br>
+          {<br>
+          }<br>
+          |<br>
+          :<br>
+          "<br>
+          ~<br>
+          <<br>
+          ><br>
+          ?<br>
+          !<br>
+          @<br>
+          #<br>
+          $<br>
+          %<br>
+          ^<br>
+          *<br>
+          (<br>
+          )<br>
+          <br>
+
+          <strong>Standard Functions:</strong><br>
+          CAPS<br>
+          F1-F24<br>
+          PRINT<br>
+          SCROLL<br>
+          PAUSE<br>
+          INSERT<br>
+          HOME<br>
+          PGUP<br>
+          DELETE<br>
+          END<br>
+          PGDOWN<br>
+          RIGHT<br>
+          LEFT<br>
+          UP<br>
+          DOWN<br>
+          <br>
+
+          <strong>Numpad:</strong><br>
+          NUMLOCK<br>
+          KP_SLASH<br>
+          KP_ASTERISK<br>
+          KP_MINUS<br>
+          KP_PLUS<br>
+          KP_ENTER<br>
+          KP_0-KP_9<br>
+          KP_DOT<br>
+          KP_EQUAL
+          <br><br>
+
+          <strong>Mods:</strong><br>
+          LCTRL&nbsp;&nbsp;&nbsp;&nbsp;RCTRL<br>
+          LSHIFT&nbsp;&nbsp;&nbsp;RSHIFT<br>
+          LALT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RALT<br>
+          LGUI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RGUI<br>
+          MENU
+          <br><br>
+
+          <strong>Media Keys:</strong><br>
+          MSTP<br>
+          MPLY<br>
+          MPRV<br>
+          MNXT<br>
+          VOLU<br>
+          VOLD
+          <br><br>
+
+          <strong>Keyboard:</strong><br>
+          L1-L7<br>
+          LED (LED toggle)<br>
+          FLASH (Puts keyboard in bootloader mode for flashing new firmware)<br>
+          TRNS to make key 'transparent'
+        </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="context-menu" v-if="contextMenuVisible" v-bind:style="{ top: contextMenuPosition.top + 'px', left: contextMenuPosition.left + 'px' }">
+      <div class="context-menu--select" v-if="keyType === 'normal'">
+        <label class="context-menu--select--label">
+          Character:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="allowedCharacter in allowedCharacters" v-bind:value="allowedCharacter">{{ allowedCharacter }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="keyType === 'tapkey'">
+        <label class="context-menu--select--label">
+          Character:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="tapKey in tapKeys" v-bind:value="tapKey">{{ tapKey }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="keyType === 'layer'">
+        <label class="context-menu--select--label">
+          Layer:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="layer in layers" v-bind:value="layer">{{ layer }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="keyType === 'tapkey'">
+        <label class="context-menu--select--label">
+          Mod/Layer:
+          <select class="context-menu--select--select" v-model="activeKey.mod" @change="saveLayout">
+            <option v-for="ml in modsAndLayers" v-bind:value="ml">{{ ml }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="keyType === 'oneshot'">
+        <label class="context-menu--select--label">
+          Mod:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="mod in modifiers" v-bind:value="mod">{{ mod }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select" v-if="keyType === 'setlayer'">
+        <label class="context-menu--select--label">
+          Layer:
+          <select class="context-menu--select--select" v-model="activeKey.value" @change="saveLayout">
+            <option v-for="layer in allLayers" v-bind:value="layer">{{ layer }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="context-menu--select">
+        <label class="context-menu--select--label">
+          Type:
+          <select class="context-menu--select--select" v-model="activeKey.type" @change="saveLayout">
+            <option v-for="buttonType in buttonTypes" v-bind:value="buttonType.id">{{ buttonType.name }}</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+    <script src="assets/js/keyboards/minivan/layouts.js"></script>
+    <script src="assets/js/keyboards/minivan/templates.js"></script>
+    <script src="assets/js/keyboards/roadkit/layouts.js"></script>
+    <script src="assets/js/keyboards/roadkit/templates.js"></script>
+    <script src="assets/js/keyboards/transitvan/layouts.js"></script>
+    <script src="assets/js/keyboards/transitvan/templates.js"></script>
+    <script src="assets/js/keyboards/cargovan/layouts.js"></script>
+    <script src="assets/js/keyboards/cargovan/templates.js"></script>
+    <script src="assets/js/keyboards/provan/layouts.js"></script>
+    <script src="assets/js/keyboards/provan/templates.js"></script>
+    <script src="assets/js/keyboards/minorca/layouts.js"></script>
+    <script src="assets/js/keyboards/minorca/templates.js"></script>
+    <script src="assets/js/keyboards/ergodox/layouts.js"></script>
+    <script src="assets/js/keyboards/ergodox/templates.js"></script>
+    <script src="assets/js/keyboards/lowwriter/layouts.js"></script>
+    <script src="assets/js/keyboards/lowwriter/templates.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
